@@ -1,0 +1,3 @@
+[submodule "ODrive"]
+	path = ODrive
+	url = git@github.com:odriverobotics/ODrive.git
