@@ -1,6 +1,3 @@
-[submodule "ODrive"]
-	path = ODrive
-	url = git@github.com:odriverobotics/ODrive.git
 [submodule "motor_control/ODrive"]
 	path = motor_control/ODrive
 	url = git@github.com:odriverobotics/ODrive.git
