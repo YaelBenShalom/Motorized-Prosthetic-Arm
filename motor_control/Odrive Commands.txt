@@ -1,0 +1,55 @@
+Odrive Commands:
+----------------
+
+Hardware Configuration:
+odrv0.config.enable_brake_resistor = True
+odrv0.config.brake_resistance = 0.5 [Ohm]
+odrv0.config.dc_max_negative_current = 10m [Amps]
+
+Motor Configuration:
+odrv0.axis0.motor.config.current_lim = 60.0 [A]
+odrv0.axis0.motor.config.requested_current_range = 90.0 [A]
+odrv0.axis0.motor.config.calibration_current = 10.0 [A]
+odrv0.axis0.motor.config.pole_pairs = 14
+odrv0.axis0.motor.config.torque_constant = 8.27 / 115
+odrv0.axis0.motor.config.motor_type = MOTOR_TYPE_HIGH_CURRENT
+
+Encoder Configuration:
+odrv0.axis0.encoder.config.abs_spi_cs_gpio_pin = 4
+odrv0.axis1.encoder.config.abs_spi_cs_gpio_pin = 3
+odrv0.axis0.encoder.config.mode = ENCODER_MODE_SPI_ABS_AMS
+odrv0.axis0.encoder.config.cpr = 2**14
+
+Controller Configuration:
+odrv0.axis0.controller.config.vel_limit = 5.0 [turn/s]
+
+
+Motor Calibration:
+odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+
+Encoder Calibration:
+odrv0.axis0.requested_state = AXIS_STATE_ENCODER_OFFSET_CALIBRATION
+
+
+Encoder Testing:
+odrv0.axis0.encoder.shadow_count
+
+Control:
+odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+odrv0.axis0.controller.config.input_mode = INPUT_MODE_PASSTHROUGH (1)
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_VOLTAGE_CONTROL (0)
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_TORQUE_CONTROL (1)
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_VELOCITY_CONTROL (2)
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL (3)
+odrv0.axis0.controller.input_torque = ...
+odrv0.axis0.controller.input_vel = ...
+odrv0.axis0.controller.input_pos = ...
+
+Error Handling:
+dump_errors(odrv0)
+odrv0.error
+odrv0.axis0.error
+
+
+odrv0.save_configuration()
+odrv0.reboot()
