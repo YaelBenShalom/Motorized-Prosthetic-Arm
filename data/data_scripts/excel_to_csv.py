@@ -6,8 +6,8 @@ import csv
 import pandas as pd
 
 
-data_dir = '../data'
-data_participant_dir = data_dir + '/Control Data'
+data_dir = '../'
+data_participant_dir = data_dir + '/control_data'
 
 for folder in os.listdir(data_participant_dir):
     data_trial_dir = data_participant_dir + '/' + folder + '/kinematics'

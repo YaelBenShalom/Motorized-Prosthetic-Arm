@@ -6,8 +6,7 @@ import pandas as pd
 # Imports required for dynamics calculations
 import sympy
 from sympy.abc import t
-from sympy import symbols, Eq, Function, solve, sin, cos, Matrix, Subs, substitution, Derivative, simplify, symbols, lambdify
-import math
+from sympy import symbols, Eq, Function, solve, sin, cos, Matrix, simplify, symbols, lambdify
 from math import pi
 import numpy as np
 import matplotlib.pyplot as plt
@@ -26,61 +25,69 @@ def main():
 
     # Masses, length and center-of-mass positions (calculated using the lab measurements)
     # Mass calculations (mass unit is kg) 
-    # m_body = 90.6                          # Average weights for American adult male
-    #                                        # from "Anthropometric Reference Data for Children and Adults:
-    #                                        # United States, 2015–2018"
-    m_body_dict = {'ID': 51, 'JD': 79.5, 'JR': 76, 'KS': 59.3, 'KW': 63.8, 'LC': 61.2,
-                'LD': 97.3, 'LS': 82.2, 'MK': 93.5, 'MV': 98.5, 'SM': 68.5, 'TD': 70,
-                'TM': 66.2}
+    # m_body = 90.6                         # Average weights for American adult male
+                                            # from "Anthropometric Reference Data for Children and Adults:
+                                            # United States, 2015–2018"
 
-    # m_upper_arm = 0.028 * m_body           # Average upper arm weights relative to body weight, from “Biomechanics
-    #                                        # and Motor Control of Human Movement” by David Winter (2009), 4th edition
-    m_upper_arm_dict = {'ID': 0.028 * m_body_dict['ID'], 'JD': 0.028 * m_body_dict['JD'],
-                        'JR': 0.028 * m_body_dict['JR'], 'KS': 0.028 * m_body_dict['KS'],
-                        'KW': 0.028 * m_body_dict['KW'], 'LC': 0.028 * m_body_dict['LC'],
-                        'LD': 0.028 * m_body_dict['LD'], 'LS': 0.028 * m_body_dict['LS'],
-                        'MK': 0.028 * m_body_dict['MK'], 'MV': 0.028 * m_body_dict['MV'],
-                        'SM': 0.028 * m_body_dict['SM'], 'TD': 0.028 * m_body_dict['TD'],
-                        'TM': 0.028 * m_body_dict['TM']}
+    m_body_dict = {'ID': 51.0, 'JD': 79.5, 'JR': 76.0, 'KS': 59.3, 'KW': 63.8, 'LC': 61.2,
+                   'LD': 97.3, 'LS': 82.2, 'MK': 93.5, 'MV': 98.5, 'SM': 68.5, 'TD': 70.0,
+                   'TM': 66.2}
 
-    m_lower_arm = 0.7395                   # Average lower prosthetics weights, calculated using lab measurements  
+    m_u_const = 0.028                       # Average upper arm weights relative to body weight, from “Biomechanics
+                                            # and Motor Control of Human Movement” by David Winter (2009), 4th edition
+                                            # m_upper_arm = 0.028 * m_body  
+
+    m_upper_arm_dict = {'ID': m_u_const * m_body_dict['ID'], 'JD': m_u_const * m_body_dict['JD'],
+                        'JR': m_u_const * m_body_dict['JR'], 'KS': m_u_const * m_body_dict['KS'],
+                        'KW': m_u_const * m_body_dict['KW'], 'LC': m_u_const * m_body_dict['LC'],
+                        'LD': m_u_const * m_body_dict['LD'], 'LS': m_u_const * m_body_dict['LS'],
+                        'MK': m_u_const * m_body_dict['MK'], 'MV': m_u_const * m_body_dict['MV'],
+                        'SM': m_u_const * m_body_dict['SM'], 'TD': m_u_const * m_body_dict['TD'],
+                        'TM': m_u_const * m_body_dict['TM']}
+
+    m_lower_arm = 0.7395                    # Average lower prosthetics weights, calculated using lab measurements  
 
     # Arm length calculations (length unit is m) 
-    # H_body = 1.769                         # Average height for American adult male, from “Height and body-mass 
-    #                                        # index trajectories of school-aged children and adolescents from 
-    #                                        # 1985 to 2019 in 200 countries and territories: a pooled analysis 
-    #                                        # of 2181 population-based studies with 65 million participants”
-    H_body_dict = {'ID': 1.62, 'JD': 1.76, 'JR': 1.77, 'KS': 1.64, 'KW': 1.62, 'LC': 1.58,
-                'LD': 1.875, 'LS': 1.635, 'MK': 1.78, 'MV': 1.805, 'SM': 1.79, 'TD': 1.69,
-                'TM': 1.735}
+    # H_body = 1.769                        # Average height for American adult male, from “Height and body-mass 
+                                            # index trajectories of school-aged children and adolescents from 
+                                            # 1985 to 2019 in 200 countries and territories: a pooled analysis 
+                                            # of 2181 population-based studies with 65 million participants”
 
-    # L_upper_arm = 0.186 * H_body           # Average upper arm length relative to body height
-    #                                        # from “Biomechanics and Motor Control of Human Movement” by David
-    #                                        # Winter (2009), 4th edition
-    L_upper_arm_dict = {'ID': 0.186 * H_body_dict['ID'], 'JD': 0.186 * H_body_dict['JD'],
-                        'JR': 0.186 * H_body_dict['JR'], 'KS': 0.186 * H_body_dict['KS'],
-                        'KW': 0.186 * H_body_dict['KW'], 'LC': 0.186 * H_body_dict['LC'],
-                        'LD': 0.186 * H_body_dict['LD'], 'LS': 0.186 * H_body_dict['LS'],
-                        'MK': 0.186 * H_body_dict['MK'], 'MV': 0.186 * H_body_dict['MV'],
-                        'SM': 0.186 * H_body_dict['SM'], 'TD': 0.186 * H_body_dict['TD'],
-                        'TM': 0.186 * H_body_dict['TM']}
+    H_body_dict = {'ID': 1.620, 'JD': 1.760, 'JR': 1.770, 'KS': 1.640, 'KW': 1.620, 'LC': 1.580,
+                   'LD': 1.875, 'LS': 1.635, 'MK': 1.780, 'MV': 1.805, 'SM': 1.790, 'TD': 1.690,
+                   'TM': 1.735}
 
-    L_lower_arm = 0.42                     # Average lower prosthetics length, calculated using lab measurements 
+    L_u_const = 0.186                       # Average upper arm length relative to body height
+                                            # from “Biomechanics and Motor Control of Human Movement” by David
+                                            # Winter (2009), 4th edition
+                                            # L_upper_arm = 0.186 * H_body
+
+    L_upper_arm_dict = {'ID': L_u_const * H_body_dict['ID'], 'JD': L_u_const * H_body_dict['JD'],
+                        'JR': L_u_const * H_body_dict['JR'], 'KS': L_u_const * H_body_dict['KS'],
+                        'KW': L_u_const * H_body_dict['KW'], 'LC': L_u_const * H_body_dict['LC'],
+                        'LD': L_u_const * H_body_dict['LD'], 'LS': L_u_const * H_body_dict['LS'],
+                        'MK': L_u_const * H_body_dict['MK'], 'MV': L_u_const * H_body_dict['MV'],
+                        'SM': L_u_const * H_body_dict['SM'], 'TD': L_u_const * H_body_dict['TD'],
+                        'TM': L_u_const * H_body_dict['TM']}
+
+    L_lower_arm = 0.42                      # Average lower prosthetics length, calculated using lab measurements 
 
     # Arm center of mass length calculations (length unit is m) 
-    # L_upper_arm_COM = 0.436 * L_upper_arm  # Average upper arm length from shoulder to center of mass relative
-    #                                        # to upper arm length, from “Biomechanics and Motor Control of Human
-    #                                        # Movement” by David Winter (2009), 4th edition
-    L_upper_arm_COM_dict = {'ID': 0.436 * L_upper_arm_dict['ID'], 'JD': 0.436 * L_upper_arm_dict['JD'],
-                            'JR': 0.436 * L_upper_arm_dict['JR'], 'KS': 0.436 * L_upper_arm_dict['KS'],
-                            'KW': 0.436 * L_upper_arm_dict['KW'], 'LC': 0.436 * L_upper_arm_dict['LC'],
-                            'LD': 0.436 * L_upper_arm_dict['LD'], 'LS': 0.436 * L_upper_arm_dict['LS'],
-                            'MK': 0.436 * L_upper_arm_dict['MK'], 'MV': 0.436 * L_upper_arm_dict['MV'],
-                            'SM': 0.436 * L_upper_arm_dict['SM'], 'TD': 0.436 * L_upper_arm_dict['TD'],
-                            'TM': 0.436 * L_upper_arm_dict['TM']}
+    L_u_COM_const = 0.436                   # Average upper arm length from shoulder to center of mass relative
+                                            # to upper arm length, from “Biomechanics and Motor Control of Human
+                                            # Movement” by David Winter (2009), 4th edition
+                                            # L_upper_arm_COM = 0.436 * L_upper_arm
+
+    L_upper_arm_COM_dict = {'ID': L_u_COM_const * L_upper_arm_dict['ID'], 'JD': L_u_COM_const * L_upper_arm_dict['JD'],
+                            'JR': L_u_COM_const * L_upper_arm_dict['JR'], 'KS': L_u_COM_const * L_upper_arm_dict['KS'],
+                            'KW': L_u_COM_const * L_upper_arm_dict['KW'], 'LC': L_u_COM_const * L_upper_arm_dict['LC'],
+                            'LD': L_u_COM_const * L_upper_arm_dict['LD'], 'LS': L_u_COM_const * L_upper_arm_dict['LS'],
+                            'MK': L_u_COM_const * L_upper_arm_dict['MK'], 'MV': L_u_COM_const * L_upper_arm_dict['MV'],
+                            'SM': L_u_COM_const * L_upper_arm_dict['SM'], 'TD': L_u_COM_const * L_upper_arm_dict['TD'],
+                            'TM': L_u_COM_const * L_upper_arm_dict['TM']}
         
-    L_lower_arm_COM = 0.2388               # Average lower prosthetics length from elbow to center of mass,
-                                        # calculated using lab measurements 
+    L_lower_arm_COM = 0.2388                # Average lower prosthetics length from elbow to center of mass,
+                                            # calculated using lab measurements 
 
 
     #########################################################################################################
@@ -392,7 +399,6 @@ def main():
 
     print(Eq(T[0], solution_0_subs))
     print(Eq(T[1], solution_1_subs))
-
 
 
 if __name__ == '__main__':
