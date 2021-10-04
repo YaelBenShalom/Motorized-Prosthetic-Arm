@@ -1,3 +1,0 @@
-[submodule "motor_control/ODrive"]
-	path = motor_control/ODrive
-	url = git@github.com:YaelBenShalom/ODrive.git
