@@ -19,4 +19,4 @@ A preliminary design of the device:
 
 Modeling a human arm as a double pendulum:
 
-<img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/double_pendulum/arm_pendulum_animation_TD_WN2.gif" width="300">
+<img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/double_pendulum/arm_pendulum_animation_TD_WN2.gif">
