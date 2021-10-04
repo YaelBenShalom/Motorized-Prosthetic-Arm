@@ -250,7 +250,7 @@ def main():
 
     # Computing the Lagrangian
     L = simplify(KE - PE)
-    print('L: {}'.format(L))
+    print('L: {} \n'.format(L))
 
     # Computing the Euler-Lagrange equations:
     # Define the derivative of L wrt the functions: x, xdot
@@ -275,7 +275,7 @@ def main():
     # Compute the Euler-Lagrange equations as a matrix
     EL_eqns = Eq(lhs, rhs)
 
-    print('Euler-Lagrange matrix for this systems: {}'.format(EL_eqns))
+    print('Euler-Lagrange matrix for this systems: {} \n'.format(EL_eqns))
 
 
     # Solve the equations for 𝜏1 and 𝜏2 :
@@ -290,7 +290,7 @@ def main():
     for sol in soln:
         for v in T:
             solution[i] = simplify(sol[v])
-            print(Eq(T[i], solution[i]))
+            print('{} \n'.format(Eq(T[i], solution[i])))
             i =+ 1
 
     # Simulating the system:
@@ -303,14 +303,8 @@ def main():
     theta1_ddot_dummy = symbols('ddtheta1')
     theta2_ddot_dummy = symbols('ddtheta2')
 
-    # solution_0_subs = solution_0_subs.subs([(m1, m_upper_arm), (m2, m_lower_arm), (R1, L_upper_arm), (R2, L_lower_arm), (R1_COM, L_upper_arm_COM), (R2_COM, L_lower_arm_COM), (g, 9.81)])
-    # solution_1_subs = solution_1_subs.subs([(m1, m_upper_arm), (m2, m_lower_arm), (R1, L_upper_arm), (R2, L_lower_arm), (R1_COM, L_upper_arm_COM), (R2_COM, L_lower_arm_COM), (g, 9.81)])
-
     solution_0_subs = solution_0_subs.subs([(g, 9.81)])
     solution_1_subs = solution_1_subs.subs([(g, 9.81)])
-
-    # display(Eq(T[0], solution_0_subs))
-    # display(Eq(T[1], solution_1_subs))
 
     solution_0_subs = solution_0_subs.subs([((theta1.diff(t)).diff(t), theta1_ddot_dummy),
                                             ((theta2.diff(t)).diff(t), theta2_ddot_dummy)])
@@ -392,7 +386,12 @@ def main():
     print(f"maximum elbow torque is {format(max_Elbow_tau, '.3f')} [Nm], in trial {max_Elbow_tau_index}")
     print(f"maximum elbow power is {format(max_Elbow_power, '.3f')} [W], in trial {max_Elbow_power_index}")
 
+    # The torque equations for the maximum torque:
+    solution_0_subs = solution_0_subs.subs([(m1, m_upper_arm_dict[participants_list[max_Elbow_tau_index]]), (m2, m_lower_arm), (R1, L_upper_arm_dict[participants_list[max_Elbow_tau_index]]), (R2, L_lower_arm), (R1_COM, L_upper_arm_COM_dict[participants_list[max_Elbow_tau_index]]), (R2_COM, L_lower_arm_COM), (g, 9.81)])
+    solution_1_subs = solution_1_subs.subs([(m1, m_upper_arm_dict[participants_list[max_Elbow_tau_index]]), (m2, m_lower_arm), (R1, L_upper_arm_dict[participants_list[max_Elbow_tau_index]]), (R2, L_lower_arm), (R1_COM, L_upper_arm_COM_dict[participants_list[max_Elbow_tau_index]]), (R2_COM, L_lower_arm_COM), (g, 9.81)])
 
+    print(Eq(T[0], solution_0_subs))
+    print(Eq(T[1], solution_1_subs))
 
 
 
