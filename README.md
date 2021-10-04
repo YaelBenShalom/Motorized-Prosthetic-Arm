@@ -9,6 +9,7 @@ The motor rotates with a sin-wave input:
 
 
 A preliminary design of the device:
+
 <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design_24092021.png" width="400"><br>
 <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design_24092021_2.png" width="400">
 <!-- ![A preliminary design of the device](https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design_24092021.png){ width=400px }<br>
