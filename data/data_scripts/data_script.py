@@ -14,7 +14,7 @@ def calculate_Acc(Vel_list, time_list, index):
           / (time_list[index+1] - time_list[index]))
 
 
-data_csv_dir = '../data/Control Data/CSV Converted Files'
+data_csv_dir = '../control_data/CSV Converted Files'
 frame_frequency = 120
 print("current directory: ", os.getcwd())
 

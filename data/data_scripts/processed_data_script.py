@@ -15,11 +15,11 @@ def load_dataset(data_file_name, data_dir):
     return data_rows
 
 
-data_dir = '../data/processed data'
+data_dir = '../processed_data'
 data_file_name = 'TD_Elbow_Ang_WN2.csv'
 
 data_rows = load_dataset(data_file_name, data_dir)
-df = pd.read_csv('../data/processed data/TD_Elbow_Ang_WN2.csv')
+df = pd.read_csv('../processed_data/TD_Elbow_Ang_WN2.csv')
 print(df)
 
 t_list = []
