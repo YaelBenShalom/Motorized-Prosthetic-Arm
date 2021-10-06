@@ -305,10 +305,10 @@ def main():
     solution_0_subs = solution[0]
     solution_1_subs = solution[1]
 
-    theta1_dot_dummy = symbols('dtheta1')
-    theta2_dot_dummy = symbols('dtheta2')
-    theta1_ddot_dummy = symbols('ddtheta1')
-    theta2_ddot_dummy = symbols('ddtheta2')
+    theta1_dot_dummy = symbols('thetadot1')
+    theta2_dot_dummy = symbols('thetadot2')
+    theta1_ddot_dummy = symbols('thetaddot1')
+    theta2_ddot_dummy = symbols('thetaddot2')
 
     solution_0_subs = solution_0_subs.subs([(g, 9.81)])
     solution_1_subs = solution_1_subs.subs([(g, 9.81)])
@@ -334,11 +334,13 @@ def main():
 
     # Initialize the torque and power lists
     Shl_Flex_tau_list, Elbow_tau_list = [], []
+    Shl_Flex_current_list, Elbow_current_list = [], []
     Shl_Flex_power_list, Elbow_power_list = [], []
 
     for i in range(len(time_list)):
         # Initialize the torque and power lists
         tau1_list, tau2_list = [], []
+        current1_list, current2_list = [], []
         power1_list, power2_list = [], []
 
         t_list = time_list[i]
@@ -361,6 +363,10 @@ def main():
                                    m_lower_arm, L_upper_arm_dict[participants_list[i]], L_lower_arm,
                                    L_upper_arm_COM_dict[participants_list[i]], L_lower_arm_COM))
 
+            # Calculate the current required to reach the required joints torques for every time step
+            current1_list.append(torque_const * tau1_list[j])
+            current2_list.append(torque_const * tau2_list[j])
+
             # Calculate the power required to reach the required angular velocities and joints torques for every time step
             power1_list.append(dtheta1_list[j] * tau1_list[j])
             power2_list.append(dtheta2_list[j] * tau2_list[j])
@@ -368,6 +374,9 @@ def main():
         Shl_Flex_tau_list.append(tau1_list)
         Elbow_tau_list.append(tau2_list)
         
+        Shl_Flex_current_list.append(current1_list)
+        Elbow_current_list.append(current2_list)
+
         Shl_Flex_power_list.append(power1_list)
         Elbow_power_list.append(power2_list)   
 
@@ -399,6 +408,11 @@ def main():
 
     print(Eq(T[0], solution_0_subs))
     print(Eq(T[1], solution_1_subs))
+
+    print(Elbow_Ang_list[max_Elbow_tau_index])
+    print(Elbow_Vel_list[max_Elbow_tau_index])
+    print(Elbow_Acc_list[max_Elbow_tau_index])
+    print(Elbow_tau_list[max_Elbow_tau_index])
 
 
 if __name__ == '__main__':
