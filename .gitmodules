@@ -1,3 +1,6 @@
 [submodule "motor_control/ODrive"]
 	path = motor_control/ODrive
 	url = git@github.com:YaelBenShalom/ODrive.git
+[submodule "motor_control/ul-amp-walk-assist"]
+	path = motor_control/ul-amp-walk-assist
+	url = git@github.com:YaelBenShalom/ul-amp-walk-assist.git
