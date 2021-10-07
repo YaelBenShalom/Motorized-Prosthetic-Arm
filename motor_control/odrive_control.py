@@ -31,7 +31,10 @@ def clear_errors(driver_name):
         driver_name.axis0.encoder.error = 0
 
 def shut_down(driver_name):
+    # Stopping the motor spin
     driver_name.axis0.controller.input_vel = 0
+
+    # Moving to straight position
     driver_name.axis0.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL
     driver_name.axis0.controller.input_pos = STRAIGHT_POSITION
     print("Going back to home position")
@@ -43,19 +46,6 @@ def get_motor_state(driver_name):
 
     return motor_pos, motor_vel, motor_current
 
-
-    # A sine wave to test
-    # t0 = time.monotonic()
-    # while True:
-    #     setpoint = 4.0 * math.sin((time.monotonic() - t0)*2)
-    #     print("Going to {}".format(str(int(setpoint))))
-    #     odrv0.axis0.controller.input_pos = setpoint
-    #     if odrv0.error != 0 or odrv0.axis0.error != 0:
-    #         print("Error!!")
-    #         break
-    #     time.sleep(0.01)
-
-    
 def position_control(driver_name):
     driver_name.axis0.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL
 
@@ -71,7 +61,7 @@ def position_control(driver_name):
             # print("Moving to {} [turn]".format(output_pos))
             # print("Moving at {} [turn/s]".format(output_vel))
             # print("Motor current is {} [A]".format(output_current))
-            print("The position error is {} [turn/s]".format(pos - output_pos))
+            print("The position error is {} [turn]".format(pos - output_pos))
             time.sleep(0.01)
 
         except:
@@ -112,21 +102,20 @@ def current_control(driver_name):
     # A sine wave to test
     for torque in elbow_torque:
         try:
-            driver_name.axis0.controller.input_torque = torque/100
+            driver_name.axis0.controller.input_torque = torque
             clear_errors(driver_name)
 
             output_pos, output_vel, output_current = get_motor_state(driver_name)
             # print("Moving to {} [turn]".format(output_pos))
             # print("Moving at {} [turn/s]".format(output_vel))
-            # print("Motor current is {} [A]".format(output_current))
-            print("The torque error is {} [turn/s]".format(torque - output_current * torque_const))
+            print("Motor current is {} [A]".format(output_current))
+            # print("The torque error is {} [N/m]".format(torque - output_current * torque_const))
             time.sleep(1/120)
 
         except:
             print("Couldn't complete motion. shutting down")
             shut_down(driver_name)
             raise
-
 
 
 def main(args):
@@ -144,10 +133,10 @@ def main(args):
     odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
     odrv0.axis0.controller.config.input_mode = INPUT_MODE_PASSTHROUGH
 
-
     # To read a value, simply read the property
     print("The boards main supply voltage is {}V".format(str(odrv0.vbus_voltage)))
 
+    # Moving to straight position
     odrv0.axis0.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL
     odrv0.axis0.controller.input_pos = STRAIGHT_POSITION
     print("Initializing position")

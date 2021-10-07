@@ -328,14 +328,17 @@ def main():
 
     # Lambdify the thetas and its derivatives
     func1 = lambdify([theta1, theta2, theta1_dot_dummy, theta2_dot_dummy, theta1_ddot_dummy,
-                    theta2_ddot_dummy, m1, m2, R1, R2, R1_COM, R2_COM], solution_0_subs, modules = sympy)
+                      theta2_ddot_dummy, m1, m2, R1, R2, R1_COM, R2_COM], solution_0_subs, modules = sympy)
     func2 = lambdify([theta1, theta2, theta1_dot_dummy, theta2_dot_dummy, theta1_ddot_dummy,
-                    theta2_ddot_dummy, m1, m2, R1, R2, R1_COM, R2_COM], solution_1_subs, modules = sympy)
+                      theta2_ddot_dummy, m1, m2, R1, R2, R1_COM, R2_COM], solution_1_subs, modules = sympy)
 
     # Initialize the torque and power lists
     Shl_Flex_tau_list, Elbow_tau_list = [], []
     Shl_Flex_current_list, Elbow_current_list = [], []
     Shl_Flex_power_list, Elbow_power_list = [], []
+
+    motor_kv = 115
+    torque_const = 8.27 / motor_kv
 
     for i in range(len(time_list)):
         # Initialize the torque and power lists
