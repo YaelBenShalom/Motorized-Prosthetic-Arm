@@ -30,6 +30,13 @@ def clear_errors(driver_name):
         print("encoder 0", driver_name.axis0.encoder.error)
         driver_name.axis0.encoder.error = 0
 
+def Calibration(driver_name):
+    # Calibrate motor and wait for it to finish
+    print("Starting calibration...")
+    driver_name.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+    while driver_name.axis0.current_state != AXIS_STATE_IDLE:
+        time.sleep(0.1)
+
 def shut_down(driver_name):
     # Stopping the motor spin
     driver_name.axis0.controller.input_vel = 0
@@ -124,11 +131,8 @@ def main(args):
     odrv0 = odrive.find_any()
 
     if args["calibration"]:
-        # Calibrate motor and wait for it to finish
-        print("Starting calibration...")
-        odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
-        while odrv0.axis0.current_state != AXIS_STATE_IDLE:
-            time.sleep(0.1)
+        # Calibrate motor
+        Calibration(odrv0)
 
     odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
     odrv0.axis0.controller.config.input_mode = INPUT_MODE_PASSTHROUGH
