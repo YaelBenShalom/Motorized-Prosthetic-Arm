@@ -67,8 +67,8 @@ def position_control(driver_name):
             output_pos, output_vel, output_current = get_motor_state(driver_name)
             # print("Moving to {} [turn]".format(output_pos))
             # print("Moving at {} [turn/s]".format(output_vel))
-            # print("Motor current is {} [A]".format(output_current))
-            print("The position error is {} [turn]".format(pos - output_pos))
+            print("Motor current is {} [A]".format(output_current))
+            # print("The position error is {} [turn]".format(pos - output_pos))
             time.sleep(0.01)
 
         except:
@@ -83,15 +83,15 @@ def velocity_control(driver_name):
     t0 = time.monotonic()
     while time.monotonic() - t0 < 11:
         try:
-            vel = 0.6 * math.sin(4 * (time.monotonic() - t0))
+            vel = 1 * math.sin(4 * (time.monotonic() - t0))
             driver_name.axis0.controller.input_vel = vel
             clear_errors(driver_name)
 
             output_pos, output_vel, output_current = get_motor_state(driver_name)
             # print("Moving to {} [turn]".format(output_pos))
             # print("Moving at {} [turn/s]".format(output_vel))
-            # print("Motor current is {} [A]".format(output_current))
-            print("The velocity error is {} [turn/s]".format(vel - output_vel))
+            print("Motor current is {} [A]".format(output_current))
+            # print("The velocity error is {} [turn/s]".format(vel - output_vel))
             time.sleep(0.01)
 
         except:
@@ -149,8 +149,8 @@ def main(args):
     liveplot(odrv0)
 
     # position_control(odrv0)
-    velocity_control(odrv0)
-    # current_control(odrv0)
+    # velocity_control(odrv0)
+    current_control(odrv0)
 
     print("Finished motion. shutting down")
     shut_down(odrv0)
