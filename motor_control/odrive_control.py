@@ -62,7 +62,6 @@ def position_control(driver_name):
     plot_rate = 1/100
     plt.figure()
 
-
     for i in range(len(elbow_pos)):
         try:
             driver_name.axis0.controller.input_pos = elbow_pos[i]
