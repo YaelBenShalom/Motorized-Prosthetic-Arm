@@ -1,13 +1,18 @@
-#include<xc.h>           // processor SFR definitions
-#include<sys/attribs.h>  // __ISR macro
+#include<xc.h>                  // processor SFR definitions
+#include<sys/attribs.h>         // __ISR macro
 #include<stdio.h>
-#include "i2c_master_noint.h"
-#include "UART.h"
-#include "spi.h"
-#include "font.h"
-#include "ST7789.h"
-#include "imu.h"
-#include "ws2812b.h"
+
+#include "utility.h"            // utility functions (heartbeat, etc)
+#include "i2c_master_noint.h"   // I2C communication
+#include "UART.h"               // serial communication w/ computer
+#include "spi.h"                // SPI communications functions
+#include "imu.h"                // IMU communication functions
+#include "font.h"               // functions for OLED display
+#include "ST7789.h"             // ST7789 communication functions
+#include "sd_card.h"            // SD card communication
+#include "imu.h"                // functions for LSM6DS33
+#include "ws2812b.h"            // WS2812b communication functions
+#include "dsp.h"                // digital signal processing
 
 // DEVCFG0
 #pragma config DEBUG = OFF      // disable debugging
