@@ -776,8 +776,8 @@ def main(args):
                                                     (R2_c, L_l_c), (g, 9.81)])
 
         print("\nThe torque equations for the maximum torque:")
-        display(Eq(T[0], solution_0_subs))
-        display(Eq(T[1], solution_1_subs))
+        print(Eq(T[0], solution_0_subs))
+        print(Eq(T[1], solution_1_subs))
 
         # display(Elbow_Ang_list[max_Elbow_tau_index])
         # display(Elbow_Vel_list[max_Elbow_tau_index])
