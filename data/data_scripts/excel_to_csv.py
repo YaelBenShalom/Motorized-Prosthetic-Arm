@@ -18,9 +18,11 @@ def main():
             if file.endswith(".XLS"):
                 file_name = file.split(".")[0]
                 file_path = os.path.join(data_trial_dir, file)
-                new_file_path = os.path.join(data_participant_dir, '/CSV Converted Files/', file_name, '.csv')
-                read_file = pd.read_table(file_path, delimiter=",", encoding='utf-8')
-                read_file.to_csv(new_file_path, index = None, header=True)
+                new_file_path = os.path.join(
+                    data_participant_dir, '/CSV Converted Files/', file_name, '.csv')
+                read_file = pd.read_table(
+                    file_path, delimiter=",", encoding='utf-8')
+                read_file.to_csv(new_file_path, index=None, header=True)
         print("Finish converting txt files in folder {}".format(folder))
     print("Finish converting all txt files")
 

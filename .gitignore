@@ -184,4 +184,4 @@ dkms.conf
 /motor_control/mechatronics_board/mechatronics_board.X/dist/
 
 # VSCode setting files
-.vscode/*
+*.vscode/*
