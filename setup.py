@@ -24,6 +24,7 @@ odrv0.axis0.controller.config.vel_limit = 5.0 # [turn/s]
 
 # Save configuration:
 odrv0.save_configuration()
+# If not working, try 'odrv0.axis0.requested_state = AXIS_STATE_IDLE' before
 
 # Motor Calibration:
 odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
