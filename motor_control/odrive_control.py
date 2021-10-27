@@ -181,12 +181,14 @@ def current_control(driver_name, use_double_pendulum):
             driver_name.axis0.controller.input_torque = elbow_torque[i]
             clear_errors(driver_name)
 
-            output_pos, output_vel, output_current = get_motor_state(driver_name)
+            output_pos, output_vel, output_current = get_motor_state(
+                driver_name)
             # print("Moving to {} [turn]".format(output_pos))
             # print("Moving at {} [turn/s]".format(output_vel))
             # print("Motor current is {} [A]".format(output_current))
-            print("The torque error is {} [N/m]".format(elbow_torque[i] + output_current * torque_const))
-            
+            print(
+                "The torque error is {} [N/m]".format(elbow_torque[i] + output_current * torque_const))
+
             output_pos_plot.append(output_pos + 160)
             output_vel_plot.append(output_vel)
             output_current_plot.append(-output_current * torque_const)
@@ -249,8 +251,6 @@ def main(args):
     # Plotting position, velocity and current graph
     # liveplot(odrv0)
 
-    
-
     if args["control"] == "position":
         # position_control(odrv0, position, use_double_pendulum)
         odrv0.axis0.controller.config.control_mode = CONTROL_MODE_TORQUE_CONTROL
@@ -259,14 +259,15 @@ def main(args):
             def ApplyUpdate(self):
                 self.state += self.correction
 
+        # Initializing controller
         pid = PID(1.0, 1.0, 1.0, time())
         model = InstantUpdateControl()
         model.SetTargetState(0.5)
 
-        init_time = time()
+        # init_time = time()
 
         for i in xrange(30):
-            correction = pid.Update(model.Error(), time())
+            correction = pid.Update(model.GetError(), time())
             model.SetCorrection(correction)
             model.Update()
 
@@ -287,6 +288,7 @@ if __name__ == '__main__':
     # construct the argument parse and parse the arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("--calibration", help="calibrate motor")
-    parser.add_argument("--control", help="control mode: current, position, or velocity")
+    parser.add_argument(
+        "--control", help="control mode: current, position, or velocity")
     args = vars(parser.parse_args())
     main(args)
