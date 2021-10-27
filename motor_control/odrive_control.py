@@ -264,8 +264,6 @@ def main(args):
         model = InstantUpdateControl()
         model.SetTargetState(0.5)
 
-        # init_time = time()
-
         for i in xrange(30):
             correction = pid.Update(model.GetError(), time())
             model.SetCorrection(correction)
