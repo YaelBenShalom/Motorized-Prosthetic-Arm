@@ -52,7 +52,14 @@ dump_errors(odrv0)
 odrv0.error
 odrv0.axis0.error
 
+odrv0.clear_errors()
+
 
 odrv0.save_configuration()
 # If not working, try 'odrv0.axis0.requested_state = AXIS_STATE_IDLE' before
 odrv0.reboot()
+
+
+
+odrivetool backup-config motor_control/config/my_config.json
+odrivetool restore-config motor_control/config/my_config.json
