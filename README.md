@@ -6,17 +6,23 @@ Designing and controlling a motorized prosthetic arm - my final project for MS i
 
 The motor rotates with a sin-wave input:
 
-<img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/motor_rotating_sine_wave.gif">
-
+<p align="center">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/motor_rotating_sine_wave.gif">
+</p>
 
 
 A preliminary design of the device:
 
-<img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design_24092021.png" width="300"><br>
-<img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design_24092021_2.png" width="300">
-
+<p align="center">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design_24092021.png" width="300">
+</p>  
+<p align="center">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design_24092021_2.png" width="300">
+</p>
 
 
 Modeling a human arm as a double pendulum:
 
-<img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/double_pendulum/arm_pendulum_animation_TD_WN2.gif">
+<p align="center">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/double_pendulum/arm_pendulum_animation_TD_WN2.gif">
+</p>
