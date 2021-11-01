@@ -14,7 +14,7 @@ The motor rotates with a sin-wave input:
 The motor control diagram:
 
 <p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/block-diagram.png" width="300">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/block-diagram.png" width="85%">
 </p>  
 
 
