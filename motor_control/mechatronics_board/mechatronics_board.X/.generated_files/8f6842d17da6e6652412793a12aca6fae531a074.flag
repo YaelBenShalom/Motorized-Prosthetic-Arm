@@ -1,1 +1,0 @@
- $(MP_EXTRA_CC_PRE) -g -D__DEBUG   -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)    -DXPRJ_default=$(CND_CONF)  -legacy-libc  $(COMPARISON_BUILD)  -mdfp="${DFP_DIR}"  /home/yael/Documents/MSR_Courses/Spring_2021/ME433-Advanced_Mechatronics/ME433-AdvancedMechatronics/HW11/HW11.X/ST7789.c
