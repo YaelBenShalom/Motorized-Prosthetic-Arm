@@ -11,13 +11,20 @@ The motor rotates with a sin-wave input:
 </p>
 
 
+The motor control diagram:
+
+<p align="center">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/block-diagram.png" width="300">
+</p>  
+
+
 A preliminary design of the device:
 
 <p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design_24092021.png" width="300">
-</p>  
-<p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design_24092021_2.png" width="300">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design_24092021.png" width="300" height="350">
+<!-- </p>   -->
+<!-- <p align="center"> -->
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design_24092021_2.png" width="300" height="350">
 </p>
 
 
