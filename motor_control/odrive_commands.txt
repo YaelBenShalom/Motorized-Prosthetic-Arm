@@ -4,11 +4,11 @@ Odrive Commands:
 Hardware Configuration:
 odrv0.config.enable_brake_resistor = True
 odrv0.config.brake_resistance = 0.5 [Ohm]
-odrv0.config.dc_max_negative_current = 10m [Amps]
+odrv0.config.dc_max_negative_current = -10*10**(-6) [Amps]
 
 Motor Configuration:
-odrv0.axis0.motor.config.current_lim = 60.0 [A]
-odrv0.axis0.motor.config.requested_current_range = 90.0 [A]
+odrv0.axis0.motor.config.current_lim = 12.0 [A]
+odrv0.axis0.motor.config.requested_current_range = 60.0 [A]
 odrv0.axis0.motor.config.calibration_current = 10.0 [A]
 odrv0.axis0.motor.config.pole_pairs = 14
 odrv0.axis0.motor.config.torque_constant = 8.27 / 115
@@ -45,6 +45,12 @@ odrv0.axis0.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL (3)
 odrv0.axis0.controller.input_torque = ...
 odrv0.axis0.controller.input_vel = ...
 odrv0.axis0.controller.input_pos = ...
+
+
+Tuning Gains:
+odrv0.axis0.controller.config.pos_gain = 20.0 [(turn/s) / turn]
+odrv0.axis0.controller.config.vel_gain = 0.6797755360603333 [Nm/(turn/s)]
+odrv0.axis0.controller.config.vel_integrator_gain = 0.32 [Nm/((turn/s) * s)]
 
 
 Error Handling:

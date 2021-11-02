@@ -1,14 +1,18 @@
 # Set up for T-motor R60 KV115:
 
+import odrive
+
+odrv0 = odrive.find_any()
+
 # Hardware Configuration:
 odrv0.config.enable_brake_resistor = True
-odrv0.config.brake_resistance = 0.5 # [Ohm]
-odrv0.config.dc_max_negative_current = 10*10**(-6) # [Amps]
+odrv0.config.brake_resistance = 0.5  # [Ohm]
+odrv0.config.dc_max_negative_current = -10*10**(-6)  # [Amps]
 
 # Motor Configuration:
-odrv0.axis0.motor.config.current_lim = 60.0 # [A]
-odrv0.axis0.motor.config.requested_current_range = 90.0 # [A]
-odrv0.axis0.motor.config.calibration_current = 10.0 # [A]
+odrv0.axis0.motor.config.current_lim = 12.0  # [A]
+odrv0.axis0.motor.config.requested_current_range = 60.0  # [A]
+odrv0.axis0.motor.config.calibration_current = 10.0  # [A]
 odrv0.axis0.motor.config.pole_pairs = 14
 odrv0.axis0.motor.config.torque_constant = 8.27 / 115
 odrv0.axis0.motor.config.motor_type = MOTOR_TYPE_HIGH_CURRENT
@@ -20,7 +24,13 @@ odrv0.axis0.encoder.config.mode = ENCODER_MODE_SPI_ABS_AMS
 odrv0.axis0.encoder.config.cpr = 2**14
 
 # Controller Configuration:
-odrv0.axis0.controller.config.vel_limit = 5.0 # [turn/s]
+odrv0.axis0.controller.config.vel_limit = 5.0  # [turn/s]
+
+# Tuning Gains:
+odrv0.axis0.controller.config.pos_gain = 20.0  # [(turn/s) / turn]
+odrv0.axis0.controller.config.vel_gain = 0.6797755360603333  # [Nm/(turn/s)]
+odrv0.axis0.controller.config.vel_integrator_gain = 0.32  # [Nm/((turn/s) * s)]
+
 
 # Save configuration:
 odrv0.save_configuration()
@@ -33,8 +43,8 @@ odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
 odrv0.axis0.requested_state = AXIS_STATE_ENCODER_OFFSET_CALIBRATION
 
 # Enable closed loop control:
-odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL  
+odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
 
 # Error Handling:
-dump_errors(odrv0)  
-dump_errors(odrv0, True)
+dump_errors(odrv0)
+odrv0.clear_errors()
