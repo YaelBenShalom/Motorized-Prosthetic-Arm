@@ -17,7 +17,7 @@ The motor control diagram:
   <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/control-diagram.png" width="85%">
 </p>  
 <p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/pid-diagram.png" width="65%">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/pid-diagram.png" width="50%">
 </p>  
 
 A preliminary design of the device:
@@ -31,8 +31,8 @@ A preliminary design of the device:
 Modeling a human arm as a double pendulum:
 
 <p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/double_pendulum/double-pendulum.jpg" width="65">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/double_pendulum/double-pendulum-diagram.png" width="40%">
 </p>
 <p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/double_pendulum/arm_pendulum_animation_TD_WN2.gif">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/double_pendulum/arm_pendulum_animation_TD_WN2.gif" width="85%">
 </p>
