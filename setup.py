@@ -24,12 +24,12 @@ odrv0.axis0.encoder.config.mode = ENCODER_MODE_SPI_ABS_AMS
 odrv0.axis0.encoder.config.cpr = 2**14
 
 # Controller Configuration:
-odrv0.axis0.controller.config.vel_limit = 5.0  # [turn/s]
+odrv0.axis0.controller.config.vel_limit = 2.0  # [turn/s]
 
 # Tuning Gains:
-odrv0.axis0.controller.config.pos_gain = 20.0  # [(turn/s) / turn]
-odrv0.axis0.controller.config.vel_gain = 0.6797755360603333  # [Nm/(turn/s)]
-odrv0.axis0.controller.config.vel_integrator_gain = 0.32  # [Nm/((turn/s) * s)]
+odrv0.axis0.controller.config.pos_gain = 5.0  # [(turn/s) / turn]
+odrv0.axis0.controller.config.vel_gain = 0.35  # [Nm/(turn/s)]
+odrv0.axis0.controller.config.vel_integrator_gain = 1.75  # [Nm/((turn/s) * s)]
 
 
 # Save configuration:
@@ -44,6 +44,11 @@ odrv0.axis0.requested_state = AXIS_STATE_ENCODER_OFFSET_CALIBRATION
 
 # Enable closed loop control:
 odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+
+# Save Motor and Encoder Offset Calibration:
+odrv0.axis0.encoder.config.pre_calibrated = True
+odrv0.axis0.motor.config.pre_calibrated = True
+odrv0.axis0.encoder.config.pre_calibrated
 
 # Error Handling:
 dump_errors(odrv0)

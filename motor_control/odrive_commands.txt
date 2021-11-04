@@ -21,7 +21,7 @@ odrv0.axis0.encoder.config.mode = ENCODER_MODE_SPI_ABS_AMS
 odrv0.axis0.encoder.config.cpr = 2**14
 
 Controller Configuration:
-odrv0.axis0.controller.config.vel_limit = 5.0 [turn/s]
+odrv0.axis0.controller.config.vel_limit = 2.0 [turn/s]
 
 
 Motor Calibration:
@@ -30,6 +30,11 @@ odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
 Encoder Calibration:
 odrv0.axis0.requested_state = AXIS_STATE_ENCODER_OFFSET_CALIBRATION
 
+Save Motor and Encoder Offset Calibration:
+odrv0.axis0.encoder.config.pre_calibrated = True
+odrv0.axis0.motor.config.pre_calibrated = True
+odrv0.axis0.encoder.config.pre_calibrated
+
 
 Encoder Testing:
 odrv0.axis0.encoder.shadow_count
@@ -37,20 +42,26 @@ odrv0.axis0.encoder.shadow_count
 
 Control:
 odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
-odrv0.axis0.controller.config.input_mode = INPUT_MODE_PASSTHROUGH (1)
-odrv0.axis0.controller.config.control_mode = CONTROL_MODE_VOLTAGE_CONTROL (0)
-odrv0.axis0.controller.config.control_mode = CONTROL_MODE_TORQUE_CONTROL (1)
-odrv0.axis0.controller.config.control_mode = CONTROL_MODE_VELOCITY_CONTROL (2)
-odrv0.axis0.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL (3)
-odrv0.axis0.controller.input_torque = ...
-odrv0.axis0.controller.input_vel = ...
-odrv0.axis0.controller.input_pos = ...
+odrv0.axis0.controller.config.input_mode = INPUT_MODE_PASSTHROUGH  # 1
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_VOLTAGE_CONTROL  # 0
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_TORQUE_CONTROL  # 1
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_VELOCITY_CONTROL  # 2
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL  # 3
+odrv0.axis0.motor.current_control.Iq_setpoint  # [A]
+odrv0.axis0.controller.input_torque = ...  # [Nm]
+odrv0.axis0.controller.input_vel = ...  # [turns/s]
+odrv0.axis0.controller.input_pos = ...  # [turns]
+
+odrv0.axis0.motor.current_control.Iq_measured  # [A]
+odrv0.axis0.motor.current_control.Iq_measured * odrv0.axis0.motor.config.torque_constant  # [Nm]
+odrv0.axis0.encoder.vel_estimate  # [turns/s]
+odrv0.axis0.encoder.pos_estimate  # [turns]
 
 
 Tuning Gains:
-odrv0.axis0.controller.config.pos_gain = 20.0 [(turn/s) / turn]
-odrv0.axis0.controller.config.vel_gain = 0.6797755360603333 [Nm/(turn/s)]
-odrv0.axis0.controller.config.vel_integrator_gain = 0.32 [Nm/((turn/s) * s)]
+odrv0.axis0.controller.config.pos_gain = 5.0 [(turn/s) / turn]
+odrv0.axis0.controller.config.vel_gain = 0.35 [Nm/(turn/s)]
+odrv0.axis0.controller.config.vel_integrator_gain = 1.75 [Nm/((turn/s) * s)]
 
 
 Error Handling:
