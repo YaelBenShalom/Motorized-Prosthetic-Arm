@@ -28,9 +28,8 @@ odrv0.axis0.controller.config.vel_limit = 2.0  # [turn/s]
 
 # Tuning Gains:
 odrv0.axis0.controller.config.pos_gain = 5.0  # [(turn/s) / turn]
-odrv0.axis0.controller.config.vel_gain = 0.35  # [Nm/(turn/s)]
-odrv0.axis0.controller.config.vel_integrator_gain = 1.75  # [Nm/((turn/s) * s)]
-
+odrv0.axis0.controller.config.vel_gain = 0.2  # [Nm/(turn/s)]
+odrv0.axis0.controller.config.vel_integrator_gain = 2.0  # [Nm/((turn/s) * s)]
 
 # Save configuration:
 odrv0.save_configuration()

@@ -71,7 +71,7 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     torque_const = 8.27 / motor_kv
 
     input_pos_plot = []
-    output_current_plot = []
+    output_torque_plot = []
     output_pos_plot = []
     output_vel_plot = []
     t_plot = []
@@ -79,7 +79,7 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     plot_rate = 1 / 100
     plt.figure(figsize=(100, 25))
     plt.suptitle('Odrive Output', fontsize=75)
-    plt.subplot(211)
+    plt.subplot(311)
 
     for i in range(len(elbow_pos)):
         try:
@@ -99,7 +99,7 @@ def position_control(driver_name, elbow_pos, elbow_torque):
 
             output_pos_plot.append(output_pos)
             output_vel_plot.append(output_vel)
-            output_current_plot.append(-output_current * torque_const)
+            output_torque_plot.append(-output_current * torque_const)
 
             plt.scatter(t, elbow_pos[i], c="blue")
             plt.scatter(t, output_pos, c="red")
@@ -118,9 +118,9 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     plt.title('Input & Output Position', fontsize=20)
     plt.legend(fontsize=50)
 
-    plt.subplot(212)
+    plt.subplot(312)
     plt.plot(t_plot, elbow_torque, c="blue", label="Input torque")
-    plt.plot(t_plot, -output_current * torque_const,
+    plt.plot(t_plot, output_torque_plot,
              c="red", label="Output torque")
     plt.ylabel('Torque [Nm]', fontsize=50)
     plt.xlabel('Time [sec]', fontsize=50)
@@ -128,10 +128,10 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     plt.title('Input & Output Torque', fontsize=20)
     plt.legend(fontsize=50)
 
-    plt.subplot(213)
+    plt.subplot(313)
     plt.plot(t_plot, output_pos_plot, c="blue", label="Output position")
     plt.plot(t_plot, output_vel_plot, c="red", label="Output velocity")
-    plt.plot(t_plot, output_current_plot, c="green", label="Output torque")
+    plt.plot(t_plot, output_torque_plot, c="green", label="Output torque")
     plt.xlabel('Time [sec]', fontsize=50)
     plt.grid()
     plt.title('Output Angle, Velocity & Torque', fontsize=20)
@@ -148,8 +148,8 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     # motor_kv = 115
     # torque_const = 8.27 / motor_kv
 
-    # input_current_plot = []
-    # output_current_plot = []
+    # input_torque_plot = []
+    # output_torque_plot = []
     # output_pos_plot = []
     # output_vel_plot = []
     # t_plot = []
@@ -172,7 +172,7 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     #         # model.SetTargetState(0.4)
 
     #         t = i * plot_rate
-    #         input_current_plot.append(0.4)
+    #         input_torque_plot.append(0.4)
     #         t_plot.append(t)
 
     #         state = 0
@@ -192,7 +192,7 @@ def position_control(driver_name, elbow_pos, elbow_torque):
 
     #             output_pos_plot.append(output_pos + 160)
     #             output_vel_plot.append(output_vel)
-    #             output_current_plot.append(-output_current * torque_const)
+    #             output_torque_plot.append(-output_current * torque_const)
 
     #             # plt.scatter(t, elbow_torque[i], c="blue")
     #             plt.scatter(t, state, c="blue")
@@ -213,7 +213,7 @@ def position_control(driver_name, elbow_pos, elbow_torque):
 
     #         # output_pos_plot.append(output_pos + 160)
     #         # output_vel_plot.append(output_vel)
-    #         # output_current_plot.append(-output_current * torque_const)
+    #         # output_torque_plot.append(-output_current * torque_const)
 
     #         # # plt.scatter(t, elbow_torque[i], c="blue")
     #         # plt.scatter(t, state, c="blue")
@@ -225,8 +225,8 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     #         shut_down(driver_name)
     #         raise
 
-    # plt.plot(t_plot, input_current_plot, c="blue", label="Input torque")
-    # plt.plot(t_plot, output_current_plot, c="red", label="Output torque")
+    # plt.plot(t_plot, input_torque_plot, c="blue", label="Input torque")
+    # plt.plot(t_plot, output_torque_plot, c="red", label="Output torque")
     # plt.ylabel('Torque [Nm]', fontsize=50)
     # plt.xlabel('Time [sec]', fontsize=50)
     # plt.grid()
@@ -236,7 +236,7 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     # plt.subplot(212)
     # plt.plot(t_plot, output_pos_plot, c="blue", label="Output position")
     # plt.plot(t_plot, output_vel_plot, c="red", label="Output velocity")
-    # plt.plot(t_plot, output_current_plot, c="green", label="Output torque")
+    # plt.plot(t_plot, output_torque_plot, c="green", label="Output torque")
     # plt.xlabel('Time [sec]', fontsize=50)
     # plt.grid()
     # plt.title('Output Angle, Velocity & Torque', fontsize=20)
@@ -286,8 +286,8 @@ def current_control(driver_name, use_double_pendulum):
     motor_kv = 115
     torque_const = 8.27 / motor_kv
 
-    input_current_plot = []
-    output_current_plot = []
+    input_torque_plot = []
+    output_torque_plot = []
     output_pos_plot = []
     output_vel_plot = []
     t_plot = []
@@ -302,7 +302,7 @@ def current_control(driver_name, use_double_pendulum):
         try:
             t = i * plot_rate
             # elbow_torque[i] = -0.6
-            input_current_plot.append(elbow_torque[i])
+            input_torque_plot.append(elbow_torque[i])
             t_plot.append(t)
 
             driver_name.axis0.controller.input_torque = elbow_torque[i]
@@ -317,7 +317,7 @@ def current_control(driver_name, use_double_pendulum):
 
             output_pos_plot.append(output_pos - initial_pos)
             output_vel_plot.append(output_vel)
-            output_current_plot.append(-output_current * torque_const)
+            output_torque_plot.append(-output_current * torque_const)
 
             plt.scatter(t, elbow_torque[i], c="blue")
             plt.scatter(t, -output_current * torque_const, c="red")
@@ -328,8 +328,8 @@ def current_control(driver_name, use_double_pendulum):
             shut_down(driver_name)
             raise
 
-    plt.plot(t_plot, input_current_plot, c="blue", label="Input torque")
-    plt.plot(t_plot, output_current_plot, c="red", label="Output torque")
+    plt.plot(t_plot, input_torque_plot, c="blue", label="Input torque")
+    plt.plot(t_plot, output_torque_plot, c="red", label="Output torque")
     plt.ylabel('Torque [Nm]', fontsize=50)
     plt.xlabel('Time [sec]', fontsize=50)
     plt.grid()
@@ -339,7 +339,7 @@ def current_control(driver_name, use_double_pendulum):
     plt.subplot(212)
     plt.plot(t_plot, output_pos_plot, c="blue", label="Output position")
     plt.plot(t_plot, output_vel_plot, c="red", label="Output velocity")
-    plt.plot(t_plot, output_current_plot, c="green", label="Output torque")
+    plt.plot(t_plot, output_torque_plot, c="green", label="Output torque")
     plt.xlabel('Time [sec]', fontsize=50)
     plt.grid()
     plt.title('Output Angle, Velocity & Torque', fontsize=20)
