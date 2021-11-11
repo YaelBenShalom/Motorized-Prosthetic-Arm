@@ -59,9 +59,9 @@ odrv0.axis0.encoder.pos_estimate  # [turns]
 
 
 Tuning Gains:
-odrv0.axis0.controller.config.pos_gain = 5.0 [(turn/s) / turn]
-odrv0.axis0.controller.config.vel_gain = 0.35 [Nm/(turn/s)]
-odrv0.axis0.controller.config.vel_integrator_gain = 1.75 [Nm/((turn/s) * s)]
+odrv0.axis0.controller.config.pos_gain = 100.0 [(turn/s) / turn]
+odrv0.axis0.controller.config.vel_gain = 0.3 [Nm/(turn/s)]
+odrv0.axis0.controller.config.vel_integrator_gain = 0.2 [Nm/((turn/s) * s)]
 
 
 Error Handling:

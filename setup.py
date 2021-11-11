@@ -10,7 +10,7 @@ odrv0.config.brake_resistance = 0.5  # [Ohm]
 odrv0.config.dc_max_negative_current = -10*10**(-6)  # [Amps]
 
 # Motor Configuration:
-odrv0.axis0.motor.config.current_lim = 12.0  # [A]
+odrv0.axis0.motor.config.current_lim = 10.0  # [A]
 odrv0.axis0.motor.config.requested_current_range = 60.0  # [A]
 odrv0.axis0.motor.config.calibration_current = 10.0  # [A]
 odrv0.axis0.motor.config.pole_pairs = 14
@@ -24,16 +24,16 @@ odrv0.axis0.encoder.config.mode = ENCODER_MODE_SPI_ABS_AMS
 odrv0.axis0.encoder.config.cpr = 2**14
 
 # Controller Configuration:
-odrv0.axis0.controller.config.vel_limit = 2.0  # [turn/s]
+odrv0.axis0.controller.config.vel_limit = 3.0  # [turn/s]
 
 # Tuning Gains:
-odrv0.axis0.controller.config.pos_gain = 5.0  # [(turn/s) / turn]
-odrv0.axis0.controller.config.vel_gain = 0.2  # [Nm/(turn/s)]
-odrv0.axis0.controller.config.vel_integrator_gain = 2.0  # [Nm/((turn/s) * s)]
+odrv0.axis0.controller.config.pos_gain = 100.0  # [(turn/s) / turn]
+odrv0.axis0.controller.config.vel_gain = 0.3  # [Nm/(turn/s)]
+odrv0.axis0.controller.config.vel_integrator_gain = 0.2  # [Nm/((turn/s) * s)]
 
 # Save configuration:
+odrv0.axis0.requested_state = AXIS_STATE_IDLE
 odrv0.save_configuration()
-# If not working, try 'odrv0.axis0.requested_state = AXIS_STATE_IDLE' before
 
 # Motor Calibration:
 odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
@@ -50,5 +50,4 @@ odrv0.axis0.motor.config.pre_calibrated = True
 odrv0.axis0.encoder.config.pre_calibrated
 
 # Error Handling:
-dump_errors(odrv0)
-odrv0.clear_errors()
+odrv0.axis0.controller.input_posodrv0.clear_errors()

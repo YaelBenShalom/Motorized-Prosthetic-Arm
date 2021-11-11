@@ -74,10 +74,12 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     output_torque_plot = []
     output_pos_plot = []
     output_vel_plot = []
+    pos_error = []
+    pos_error_abs = []
     t_plot = []
 
     plot_rate = 1 / 100
-    plt.figure(figsize=(100, 25))
+    plt.figure(figsize=(100, 50))
     plt.suptitle('Odrive Output', fontsize=75)
     plt.subplot(311)
 
@@ -95,14 +97,16 @@ def position_control(driver_name, elbow_pos, elbow_torque):
             # print("Moving to {} [turn]".format(output_pos))
             # print("Moving at {} [turn/s]".format(output_vel))
             print("Motor current is {} [A]".format(output_current))
-            # print("The position error is {} [turn]".format(elbow_pos[i] - output_pos))
+            # print("The position error is {} [deg]".format(elbow_pos[i] - output_pos)*360)
 
-            output_pos_plot.append(output_pos)
-            output_vel_plot.append(output_vel)
+            output_pos_plot.append(output_pos*360)
+            output_vel_plot.append(output_vel*360)
             output_torque_plot.append(-output_current * torque_const)
-
-            plt.scatter(t, elbow_pos[i], c="blue")
-            plt.scatter(t, output_pos, c="red")
+            pos_error.append((elbow_pos[i] - output_pos)*360)
+            pos_error_abs.append(abs(elbow_pos[i] - output_pos)*360)
+            
+            plt.scatter(t, elbow_pos[i]*360, c="blue")
+            plt.scatter(t, output_pos*360, c="red")
             time.sleep(plot_rate)
 
         except:
@@ -112,32 +116,46 @@ def position_control(driver_name, elbow_pos, elbow_torque):
 
     plt.plot(t_plot, input_pos_plot, c="blue", label="Input position")
     plt.plot(t_plot, output_pos_plot, c="red", label="Output position")
-    plt.ylabel('Angle [turn]', fontsize=50)
-    plt.xlabel('Time [sec]', fontsize=50)
+    plt.ylabel('Angle [deg]', fontsize=40)
+    plt.xlabel('Time [sec]', fontsize=40)
     plt.grid()
-    plt.title('Input & Output Position', fontsize=20)
-    plt.legend(fontsize=50)
+    plt.title('Input & Output Position', fontsize=50)
+    plt.legend(fontsize=40)
 
     plt.subplot(312)
-    plt.plot(t_plot, elbow_torque, c="blue", label="Input torque")
-    plt.plot(t_plot, output_torque_plot,
-             c="red", label="Output torque")
-    plt.ylabel('Torque [Nm]', fontsize=50)
-    plt.xlabel('Time [sec]', fontsize=50)
+    plt.plot(t_plot, pos_error, label="Position error")
+    plt.ylabel('Error [deg]', fontsize=40)
+    plt.xlabel('Time [sec]', fontsize=40)
     plt.grid()
-    plt.title('Input & Output Torque', fontsize=20)
-    plt.legend(fontsize=50)
+    plt.title('Position Error', fontsize=50)
+    plt.legend(fontsize=40)
 
     plt.subplot(313)
-    plt.plot(t_plot, output_pos_plot, c="blue", label="Output position")
-    plt.plot(t_plot, output_vel_plot, c="red", label="Output velocity")
-    plt.plot(t_plot, output_torque_plot, c="green", label="Output torque")
-    plt.xlabel('Time [sec]', fontsize=50)
+    plt.plot(t_plot, elbow_torque, c="blue", label="Theoretical torque")
+    plt.plot(t_plot, output_torque_plot,
+             c="red", label="Output torque")
+    plt.ylabel('Torque [Nm]', fontsize=40)
+    plt.xlabel('Time [sec]', fontsize=40)
     plt.grid()
-    plt.title('Output Angle, Velocity & Torque', fontsize=20)
-    plt.legend(fontsize=50)
+    plt.title('Teoretacl Vs. Output Torque', fontsize=50)
+    plt.legend(fontsize=40)
+
+    # plt.subplot(313)
+    # plt.plot(t_plot, output_pos_plot, c="blue", label="Output position")
+    # plt.plot(t_plot, output_vel_plot, c="red", label="Output velocity")
+    # plt.plot(t_plot, output_torque_plot, c="green", label="Output torque")
+    # plt.xlabel('Time [sec]', fontsize=50)
+    # plt.grid()
+    # plt.title('Output Angle, Velocity & Torque', fontsize=50)
+    # plt.legend(fontsize=50)
 
     plt.savefig("output.png")
+    
+    max_pos_error = max(pos_error_abs)
+    max_pos_error_index = pos_error_abs.index(max_pos_error)
+    print("Maximum position error is: ", max_pos_error)
+    print("Average position error is: ", sum(pos_error)/len(pos_error))
+    print("Maximum position error as a precent of the max position: {}%".format(max_pos_error*100/(max(elbow_torque)*360)))
 
     # driver_name.axis0.controller.config.control_mode = CONTROL_MODE_TORQUE_CONTROL
 
