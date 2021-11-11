@@ -27,9 +27,9 @@ odrv0.axis0.encoder.config.cpr = 2**14
 odrv0.axis0.controller.config.vel_limit = 3.0  # [turn/s]
 
 # Tuning Gains:
-odrv0.axis0.controller.config.pos_gain = 100.0  # [(turn/s) / turn]
+odrv0.axis0.controller.config.pos_gain = 150.0  # [(turn/s) / turn]
 odrv0.axis0.controller.config.vel_gain = 0.3  # [Nm/(turn/s)]
-odrv0.axis0.controller.config.vel_integrator_gain = 0.2  # [Nm/((turn/s) * s)]
+odrv0.axis0.controller.config.vel_integrator_gain = 0.15  # [Nm/((turn/s) * s)]
 
 # Save configuration:
 odrv0.axis0.requested_state = AXIS_STATE_IDLE
