@@ -10,7 +10,7 @@ odrv0.config.brake_resistance = 0.5  # [Ohm]
 odrv0.config.dc_max_negative_current = -10*10**(-6)  # [Amps]
 
 # Motor Configuration:
-odrv0.axis0.motor.config.current_lim = 10.0  # [A]
+odrv0.axis0.motor.config.current_lim = 12.0  # [A]
 odrv0.axis0.motor.config.requested_current_range = 60.0  # [A]
 odrv0.axis0.motor.config.calibration_current = 10.0  # [A]
 odrv0.axis0.motor.config.pole_pairs = 14
@@ -24,11 +24,11 @@ odrv0.axis0.encoder.config.mode = ENCODER_MODE_SPI_ABS_AMS
 odrv0.axis0.encoder.config.cpr = 2**14
 
 # Controller Configuration:
-odrv0.axis0.controller.config.vel_limit = 3.0  # [turn/s]
+odrv0.axis0.controller.config.vel_limit = 2.0  # [turn/s]
 
 # Tuning Gains:
 odrv0.axis0.controller.config.pos_gain = 150.0  # [(turn/s) / turn]
-odrv0.axis0.controller.config.vel_gain = 0.3  # [Nm/(turn/s)]
+odrv0.axis0.controller.config.vel_gain = 0.25  # [Nm/(turn/s)]
 odrv0.axis0.controller.config.vel_integrator_gain = 0.15  # [Nm/((turn/s) * s)]
 
 # Save configuration:

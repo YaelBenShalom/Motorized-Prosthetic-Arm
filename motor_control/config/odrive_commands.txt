@@ -1,0 +1,82 @@
+Odrive Commands:
+----------------
+
+Hardware Configuration:
+odrv0.config.enable_brake_resistor = True
+odrv0.config.brake_resistance = 0.5 [Ohm]
+odrv0.config.dc_max_negative_current = -10*10**(-6) [Amps]
+
+Motor Configuration:
+odrv0.axis0.motor.config.current_lim = 12.0 [A]
+odrv0.axis0.motor.config.requested_current_range = 60.0 [A]
+odrv0.axis0.motor.config.calibration_current = 10.0 [A]
+odrv0.axis0.motor.config.pole_pairs = 14
+odrv0.axis0.motor.config.torque_constant = 8.27 / 115
+odrv0.axis0.motor.config.motor_type = MOTOR_TYPE_HIGH_CURRENT
+
+Encoder Configuration:
+odrv0.axis0.encoder.config.abs_spi_cs_gpio_pin = 4
+odrv0.axis1.encoder.config.abs_spi_cs_gpio_pin = 3
+odrv0.axis0.encoder.config.mode = ENCODER_MODE_SPI_ABS_AMS
+odrv0.axis0.encoder.config.cpr = 2**14
+
+Controller Configuration:
+odrv0.axis0.controller.config.vel_limit = 2.0 [turn/s]
+
+
+Motor Calibration:
+odrv0.axis0.requested_state = AXIS_STATE_FULL_CALIBRATION_SEQUENCE
+
+Encoder Calibration:
+odrv0.axis0.requested_state = AXIS_STATE_ENCODER_OFFSET_CALIBRATION
+
+Save Motor and Encoder Offset Calibration:
+odrv0.axis0.encoder.config.pre_calibrated = True
+odrv0.axis0.motor.config.pre_calibrated = True
+odrv0.axis0.encoder.config.pre_calibrated
+
+
+Encoder Testing:
+odrv0.axis0.encoder.shadow_count
+
+
+Control:
+odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
+odrv0.axis0.controller.config.input_mode = INPUT_MODE_PASSTHROUGH  # 1
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_VOLTAGE_CONTROL  # 0
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_TORQUE_CONTROL  # 1
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_VELOCITY_CONTROL  # 2
+odrv0.axis0.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL  # 3
+odrv0.axis0.motor.current_control.Iq_setpoint  # [A]
+odrv0.axis0.controller.input_torque = ...  # [Nm]
+odrv0.axis0.controller.input_vel = ...  # [turns/s]
+odrv0.axis0.controller.input_pos = ...  # [turns]
+
+odrv0.axis0.motor.current_control.Iq_measured  # [A]
+odrv0.axis0.motor.current_control.Iq_measured * odrv0.axis0.motor.config.torque_constant  # [Nm]
+odrv0.axis0.encoder.vel_estimate  # [turns/s]
+odrv0.axis0.encoder.pos_estimate  # [turns]
+
+
+Tuning Gains:
+odrv0.axis0.controller.config.pos_gain = 150.0 [(turn/s) / turn]
+odrv0.axis0.controller.config.vel_gain = 0.25 [Nm/(turn/s)]
+odrv0.axis0.controller.config.vel_integrator_gain = 0.15 [Nm/((turn/s) * s)]
+
+
+Error Handling:
+dump_errors(odrv0)
+odrv0.error
+odrv0.axis0.error
+
+odrv0.clear_errors()
+
+
+odrv0.axis0.requested_state = AXIS_STATE_IDLE
+odrv0.save_configuration()
+odrv0.reboot()
+
+
+
+odrivetool backup-config motor_control/config/my_config.json
+odrivetool restore-config motor_control/config/my_config.json
