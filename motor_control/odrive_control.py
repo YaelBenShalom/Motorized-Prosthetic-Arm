@@ -87,7 +87,7 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     for i in range(len(elbow_pos)):
         try:
             t = i * plot_rate
-            input_pos_plot.append(elbow_pos[i] - position_offset)
+            input_pos_plot.append((elbow_pos[i] - position_offset)*360)
             t_plot.append(t)
 
             driver_name.axis0.controller.input_pos = elbow_pos[i] - position_offset
