@@ -98,6 +98,8 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     plt.suptitle('Odrive Output', fontsize=75)
     plt.subplot(311)
 
+    init_time = time.time()
+    
     for i in range(len(elbow_pos)):
         try:
             t = i * plot_rate
@@ -121,7 +123,7 @@ def position_control(driver_name, elbow_pos, elbow_torque):
             
             plt.scatter(t, (elbow_pos[i] - position_offset)*360, c="blue")
             plt.scatter(t, output_pos*360, c="red")
-            time.sleep(plot_rate)
+            time.sleep(0)
 
         except:
             print("Couldn't complete motion. shutting down")
@@ -159,6 +161,8 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     print("Maximum position error is: ", max_pos_error)
     print("Average position error is: ", sum(pos_error)/len(pos_error))
     print("Maximum position error as a precent of the max position: {}%".format(max_pos_error*100/(max(elbow_torque)*360)))
+
+    print("Delta time: {}".format(time.time() - init_time))
 
     # driver_name.axis0.controller.config.control_mode = CONTROL_MODE_TORQUE_CONTROL
 
@@ -312,7 +316,6 @@ def current_control(driver_name, elbow_pos, elbow_torque):
     for i in range(len(elbow_torque)):
         try:
             t = i * plot_rate
-            # elbow_torque[i] = -0.6
             input_torque_plot.append(elbow_torque[i])
             t_plot.append(t)
 
@@ -366,28 +369,19 @@ def main(args):
     print("Finding an ODrive...")
     odrv0 = odrive.find_any()
 
-    # Find an ODrive that is connected on the serial port /dev/ttyUSB0
-    # odrv0 = odrive.find_any("serial:/dev/ttyUSB0")
-
     if args["calibration"]:
         # Calibrate motor
         Calibration(odrv0)
 
-    # Switching ti closed loop control state
+    # Switching ti closed loop control stateboards
     odrv0.axis0.requested_state = AXIS_STATE_CLOSED_LOOP_CONTROL
     odrv0.axis0.controller.config.input_mode = INPUT_MODE_PASSTHROUGH
+    output_pos, output_vel, output_current = get_motor_state(odrv0)
 
     # To read a value, simply read the property
     print("The boards main supply voltage is {}V".format(str(odrv0.vbus_voltage)))
-
-    # Moving to straight position
-    # odrv0.axis0.controller.config.control_mode = CONTROL_MODE_POSITION_CONTROL
-    # odrv0.axis0.controller.input_pos = STRAIGHT_POSITION
-    # print("Initializing position")
-
-    # Plotting position, velocity and current graph
-    # liveplot(odrv0)
-
+    print("The motor initial positionis {}".format(output_pos))
+    
     data_file_dict = {"0.5ms": "05ms.csv", "0.6ms": "06ms.csv", "0.7ms": "07ms.csv", "0.8ms": "08ms.csv", "0.9ms": "09ms.csv",
                         "1.0ms": "10ms.csv", "1.1ms": "11ms.csv", "1.2ms": "12ms.csv", "1.3ms": "13ms.csv", "1.4ms": "14ms.csv"}
     
@@ -403,19 +397,14 @@ def main(args):
         position, torque = row.strip().split(",")
         
         single_pend_elbow_position.append(float(position[1:-1]))
-        single_pend_elbow_torque.append(float(torque[1:-1]))
-        # print(type(single_pend_elbow_position))
-        
+        single_pend_elbow_torque.append(float(torque[1:-1]))        
 
     if use_double_pendulum:
         elbow_pos = double_pend_elbow_position
         elbow_torque = double_pend_elbow_torque
     else:
-        elbow_pos = single_pend_elbow_position
-        elbow_torque = single_pend_elbow_torque
-
-    output_pos, output_vel, output_current = get_motor_state(odrv0)
-    print("init position = {}".format(output_pos))
+        elbow_pos = single_pend_elbow_position[:2000]
+        elbow_torque = single_pend_elbow_torque[:2000]
         
     if args["control"] == "position":    
         position_control(odrv0, elbow_pos, elbow_torque)
@@ -439,6 +428,7 @@ if __name__ == '__main__':
     parser.add_argument("--calibration", default=False, help="calibrate motor")
     parser.add_argument("--control", help="control mode: current, position, or velocity")
     parser.add_argument("--velocity", help="walking velocity")
-
     args = vars(parser.parse_args())
+    
+    time.sleep(3)
     main(args)
