@@ -29,6 +29,7 @@ def load_dataset(data_file_name, data_dir):
 
     return data_rows
 
+
 def liveplot(driver_name):
     start_liveplotter(lambda: [
         driver_name.axis0.encoder.pos_estimate,
@@ -84,7 +85,7 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     motor_kv = 115
     torque_const = 8.27 / motor_kv
     position_offset = 0.18
-    
+
     input_pos_plot = []
     output_torque_plot = []
     output_pos_plot = []
@@ -99,31 +100,32 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     plt.subplot(311)
 
     init_time = time.time()
-    
+
     for i in range(len(elbow_pos)):
         try:
             t = i * plot_rate
-            input_pos_plot.append((elbow_pos[i] - position_offset)*360)
+            input_pos = elbow_pos[i] - position_offset
+            input_pos_plot.append(input_pos*360)
             t_plot.append(t)
 
-            driver_name.axis0.controller.input_pos = elbow_pos[i] - position_offset
+            driver_name.axis0.controller.input_pos = input_pos
             clear_errors(driver_name)
 
-            output_pos, output_vel, output_current = get_motor_state(driver_name)
+            output_pos, output_vel, output_curr = get_motor_state(driver_name)
             # print("Moving to {} [turn]".format(output_pos))
             # print("Moving at {} [turn/s]".format(output_vel))
-            print("Motor current is {} [A]".format(output_current))
-            # print("The position error is {} [deg]".format(elbow_pos[i] - output_pos)*360)
+            print("Motor current is {} [A]".format(output_curr))
+            # print("The position error is {} [deg]".format(input_pos - output_pos)*360)
 
             output_pos_plot.append(output_pos*360)
             output_vel_plot.append(output_vel*360)
-            output_torque_plot.append(-output_current * torque_const)
-            pos_error.append(((elbow_pos[i] - position_offset) - output_pos)*360)
-            pos_error_abs.append(abs((elbow_pos[i] - position_offset) - output_pos)*360)
-            
-            plt.scatter(t, (elbow_pos[i] - position_offset)*360, c="blue")
+            output_torque_plot.append(-output_curr * torque_const)
+            pos_error.append((input_pos - output_pos)*360)
+            pos_error_abs.append(abs(input_pos - output_pos)*360)
+
+            plt.scatter(t, input_pos*360, c="blue")
             plt.scatter(t, output_pos*360, c="red")
-            time.sleep(0)
+            # time.sleep(0)
 
         except:
             print("Couldn't complete motion. shutting down")
@@ -156,11 +158,12 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     plt.legend(fontsize=40)
 
     plt.savefig("output.png")
-    
+
     max_pos_error = max(pos_error_abs)
     print("Maximum position error is: ", max_pos_error)
     print("Average position error is: ", sum(pos_error)/len(pos_error))
-    print("Maximum position error as a precent of the max position: {}%".format(max_pos_error*100/(max(elbow_torque)*360)))
+    print("Maximum position error as a precent of the max position: {}%".format(
+        max_pos_error*100/(max(elbow_torque)*360)))
 
     print("Delta time: {}".format(time.time() - init_time))
 
@@ -381,23 +384,23 @@ def main(args):
     # To read a value, simply read the property
     print("The boards main supply voltage is {}V".format(str(odrv0.vbus_voltage)))
     print("The motor initial positionis {}".format(output_pos))
-    
+
     data_file_dict = {"0.5ms": "05ms.csv", "0.6ms": "06ms.csv", "0.7ms": "07ms.csv", "0.8ms": "08ms.csv", "0.9ms": "09ms.csv",
-                        "1.0ms": "10ms.csv", "1.1ms": "11ms.csv", "1.2ms": "12ms.csv", "1.3ms": "13ms.csv", "1.4ms": "14ms.csv"}
-    
+                      "1.0ms": "10ms.csv", "1.1ms": "11ms.csv", "1.2ms": "12ms.csv", "1.3ms": "13ms.csv", "1.4ms": "14ms.csv"}
+
     data_dir = '../data/my_data'
     data_file_name = data_file_dict[args["velocity"]]
 
     data_rows = load_dataset(data_file_name, data_dir)
-    
+
     single_pend_elbow_position = []
     single_pend_elbow_torque = []
-    
+
     for row in data_rows:
         position, torque = row.strip().split(",")
-        
+
         single_pend_elbow_position.append(float(position[1:-1]))
-        single_pend_elbow_torque.append(float(torque[1:-1]))        
+        single_pend_elbow_torque.append(float(torque[1:-1]))
 
     if use_double_pendulum:
         elbow_pos = double_pend_elbow_position
@@ -405,8 +408,8 @@ def main(args):
     else:
         elbow_pos = single_pend_elbow_position[:2000]
         elbow_torque = single_pend_elbow_torque[:2000]
-        
-    if args["control"] == "position":    
+
+    if args["control"] == "position":
         position_control(odrv0, elbow_pos, elbow_torque)
 
     elif args["control"] == "velocity":
@@ -426,9 +429,10 @@ if __name__ == '__main__':
     # construct the argument parse and parse the arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("--calibration", default=False, help="calibrate motor")
-    parser.add_argument("--control", help="control mode: current, position, or velocity")
+    parser.add_argument(
+        "--control", help="control mode: current, position, or velocity")
     parser.add_argument("--velocity", help="walking velocity")
     args = vars(parser.parse_args())
-    
+
     time.sleep(3)
     main(args)
