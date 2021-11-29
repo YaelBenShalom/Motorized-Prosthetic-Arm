@@ -105,8 +105,6 @@ def position_control(driver_name, elbow_pos, elbow_torque):
         try:
             t = i * plot_rate
             input_pos = elbow_pos[i] - position_offset
-            input_pos_plot.append(input_pos*360)
-            t_plot.append(t)
 
             driver_name.axis0.controller.input_pos = input_pos
             clear_errors(driver_name)
@@ -117,11 +115,13 @@ def position_control(driver_name, elbow_pos, elbow_torque):
             print("Motor current is {} [A]".format(output_curr))
             # print("The position error is {} [deg]".format(input_pos - output_pos)*360)
 
+            input_pos_plot.append(input_pos*360)
             output_pos_plot.append(output_pos*360)
             output_vel_plot.append(output_vel*360)
             output_torque_plot.append(-output_curr * torque_const)
             pos_error.append((input_pos - output_pos)*360)
             pos_error_abs.append(abs(input_pos - output_pos)*360)
+            t_plot.append(t)
 
             plt.scatter(t, input_pos*360, c="blue")
             plt.scatter(t, output_pos*360, c="red")
@@ -131,6 +131,13 @@ def position_control(driver_name, elbow_pos, elbow_torque):
             print("Couldn't complete motion. shutting down")
             # shut_down(driver_name)
             raise
+
+    max_pos_error = max(pos_error_abs)
+    print("Maximum position error is: ", max_pos_error)
+    print("Average position error is: ", sum(pos_error)/len(pos_error))
+    print("Maximum position error as a precent of the max position: {}%".format(
+        max_pos_error*100/(max(elbow_torque)*360)))
+    print("Delta time: {}".format(time.time() - init_time))
 
     plt.plot(t_plot, input_pos_plot, c="blue", label="Input position")
     plt.plot(t_plot, output_pos_plot, c="red", label="Output position")
@@ -158,14 +165,6 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     plt.legend(fontsize=40)
 
     plt.savefig("output.png")
-
-    max_pos_error = max(pos_error_abs)
-    print("Maximum position error is: ", max_pos_error)
-    print("Average position error is: ", sum(pos_error)/len(pos_error))
-    print("Maximum position error as a precent of the max position: {}%".format(
-        max_pos_error*100/(max(elbow_torque)*360)))
-
-    print("Delta time: {}".format(time.time() - init_time))
 
     # driver_name.axis0.controller.config.control_mode = CONTROL_MODE_TORQUE_CONTROL
 
@@ -280,16 +279,15 @@ def velocity_control(driver_name, elbow_pos, elbow_torque):
     t0 = time.monotonic()
     while time.monotonic() - t0 < 11:
         try:
-            vel = 1 * math.sin(4 * (time.monotonic() - t0))
-            driver_name.axis0.controller.input_vel = vel
+            input_vel = 1 * math.sin(4 * (time.monotonic() - t0))
+            driver_name.axis0.controller.input_vel = input_vel
             clear_errors(driver_name)
 
-            output_pos, output_vel, output_current = get_motor_state(
-                driver_name)
+            output_pos, output_vel, output_curr = get_motor_state(driver_name)
             # print("Moving to {} [turn]".format(output_pos))
             # print("Moving at {} [turn/s]".format(output_vel))
-            print("Motor current is {} [A]".format(output_current))
-            # print("The velocity error is {} [turn/s]".format(vel - output_vel))
+            print("Motor current is {} [A]".format(output_curr))
+            # print("The velocity error is {} [turn/s]".format(input_vel - output_vel))
             time.sleep(0.01)
 
         except:
@@ -319,25 +317,26 @@ def current_control(driver_name, elbow_pos, elbow_torque):
     for i in range(len(elbow_torque)):
         try:
             t = i * plot_rate
-            input_torque_plot.append(elbow_torque[i])
-            t_plot.append(t)
+            input_torque = elbow_torque[i]
 
-            driver_name.axis0.controller.input_torque = elbow_torque[i]
+            driver_name.axis0.controller.input_torque = input_torque
             clear_errors(driver_name)
 
-            output_pos, output_vel, output_current = get_motor_state(
-                driver_name)
+            output_pos, output_vel, output_curr = get_motor_state(driver_name)
+            output_torque = -output_curr * torque_const
             # print("Moving to {} [turn]".format(output_pos))
             # print("Moving at {} [turn/s]".format(output_vel))
-            print("Motor current is {} [A]".format(output_current))
-            # print("The torque error is {} [N/m]".format(elbow_torque[i] + output_current * torque_const))
+            print("Motor current is {} [A]".format(output_curr))
+            # print("The torque error is {} [N/m]".format(input_torque  - output_torque))
 
+            input_torque_plot.append(input_torque)
             output_pos_plot.append(output_pos - initial_pos)
             output_vel_plot.append(output_vel)
-            output_torque_plot.append(-output_current * torque_const)
+            output_torque_plot.append(output_torque)
+            t_plot.append(t)
 
-            plt.scatter(t, elbow_torque[i], c="blue")
-            plt.scatter(t, -output_current * torque_const, c="red")
+            plt.scatter(t, input_torque, c="blue")
+            plt.scatter(t, output_torque, c="red")
             time.sleep(plot_rate)
 
         except:
@@ -395,6 +394,8 @@ def main(args):
 
     single_pend_elbow_position = []
     single_pend_elbow_torque = []
+    double_pend_elbow_position = []
+    double_pend_elbow_torque = []
 
     for row in data_rows:
         position, torque = row.strip().split(",")
