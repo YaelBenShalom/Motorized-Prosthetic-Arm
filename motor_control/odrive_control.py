@@ -97,7 +97,7 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     plot_rate = 1 / 100
     plt.figure(figsize=(100, 50))
     plt.suptitle('Odrive Output', fontsize=75)
-    plt.subplot(311)
+    plt.subplot(211)
 
     init_time = time.time()
 
@@ -147,7 +147,7 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     plt.title('Input & Output Position', fontsize=50)
     plt.legend(fontsize=40)
 
-    plt.subplot(312)
+    plt.subplot(212)
     plt.plot(t_plot, pos_error, label="Position error")
     plt.ylabel('Error [deg]', fontsize=40)
     plt.xlabel('Time [sec]', fontsize=40)
@@ -155,14 +155,14 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     plt.title('Position Error', fontsize=50)
     plt.legend(fontsize=40)
 
-    plt.subplot(313)
-    plt.plot(t_plot, elbow_torque, c="blue", label="Theoretical torque")
-    plt.plot(t_plot, output_torque_plot, c="red", label="Output torque")
-    plt.ylabel('Torque [Nm]', fontsize=40)
-    plt.xlabel('Time [sec]', fontsize=40)
-    plt.grid()
-    plt.title('Teoretacl Vs. Output Torque', fontsize=50)
-    plt.legend(fontsize=40)
+    # plt.subplot(313)
+    # plt.plot(t_plot, elbow_torque, c="blue", label="Theoretical torque")
+    # plt.plot(t_plot, output_torque_plot, c="red", label="Output torque")
+    # plt.ylabel('Torque [Nm]', fontsize=40)
+    # plt.xlabel('Time [sec]', fontsize=40)
+    # plt.grid()
+    # plt.title('Theoretical Vs. Output Torque', fontsize=50)
+    # plt.legend(fontsize=40)
 
     plt.savefig("output.png")
 
