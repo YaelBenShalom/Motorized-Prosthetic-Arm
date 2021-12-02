@@ -103,7 +103,9 @@ def position_control(driver_name, elbow_pos, elbow_torque):
 
     for i in range(len(elbow_pos)):
         try:
-            t = i * plot_rate
+            # t = i * plot_rate
+            current_time = time.time()
+            t = current_time - init_time
             input_pos = elbow_pos[i] - position_offset
 
             driver_name.axis0.controller.input_pos = input_pos
@@ -112,7 +114,7 @@ def position_control(driver_name, elbow_pos, elbow_torque):
             output_pos, output_vel, output_curr = get_motor_state(driver_name)
             # print("Moving to {} [turn]".format(output_pos))
             # print("Moving at {} [turn/s]".format(output_vel))
-            print("Motor current is {} [A]".format(output_curr))
+            # print("Motor current is {} [A]".format(output_curr))
             # print("The position error is {} [deg]".format(input_pos - output_pos)*360)
 
             input_pos_plot.append(input_pos*360)
