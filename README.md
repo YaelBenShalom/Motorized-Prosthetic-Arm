@@ -7,24 +7,24 @@ Designing, building, and controlling a motorized prosthetic arm - my final proje
 The motor rotates with a sin-wave input:
 
 <p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/motor_rotating_sine_wave.gif">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/videos/motor_control/motor_rotating_sine_wave.gif">
 </p>
 
 
 The motor control diagram:
 
 <p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/control-diagram.png" width="85%">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/control_diagram.png" width="85%">
 </p>  
 <p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/pid-diagram.png" width="50%">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/pid_diagram.png" width="50%">
 </p>  
 
 A preliminary design of the device:
 
 <p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design_24092021.png" width="300" height="350">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design_24092021_2.png" width="300" height="350">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design2.png" width="300" height="350">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design3.png" width="300" height="350">
 </p>
 
 
@@ -34,5 +34,5 @@ Modeling a human arm as a double pendulum:
   <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/double_pendulum/double-pendulum-diagram.png" width="40%">
 </p>
 <p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/double_pendulum/arm_pendulum_animation_TD_WN2.gif" width="85%">
+  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/videos/double_pendulum/arm_pendulum_animation.gif" width="85%">
 </p>
