@@ -1,38 +1,45 @@
-# Motorized-Prosthetic-Arm
-Designing, building, and controlling a motorized prosthetic arm - my final project for MS in Robotics at Northwestern, 2021.
-<br><br>
+# Designing, building and controlling a motorized prosthetic arm
 
-## This is an ongoing project. Here is a little teaser:
-
-The motor rotates with a sin-wave input:
-
-<p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/videos/motor_control/motor_rotating_sine_wave.gif">
-</p>
+Author: Yael Ben Shalom
+Final project, MS in Robotics at Northwestern, 2021.
 
 
-The motor control diagram:
+## Table of Contents
 
-<p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/control_diagram.png" width="85%">
-</p>  
-<p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/pid_diagram.png" width="50%">
-</p>  
+- [Project Description](#project_description)
+- [Project Overview](#project_overview)
+- [Getting Started](#getting-started)
 
-A preliminary design of the device:
+## Project Description
 
-<p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design2.png" width="300" height="350">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design3.png" width="300" height="350">
-</p>
+In this project, I designed, built, and controlled a motorized prosthetic elbow that imitates healthy arm motion to help amputees prevent falling, avoid injuries, and maintain balance while walking. According to Kent and Major's research[1], asymmetries in body mass and motion affect the regulation of whole-body angular momentum in individuals with upper limb absence and may increase fall risk.
+
+To better predict the arm-body motion, I analyzed arm movement data patterns, simulated full arm dynamics, and found the relation between walking speed to the angular velocity of the arm.<br><br>
+Please visit [my website](https://yaelbenshalom.github.io/motorized_prosthetic_arm/index.html) for more information about this project.<br>
+
+## Project Overview
+
+This project contained 4 parts:
+
+1. [Data collection](https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/tree/master/data)
+2. [Arm motion analysis and modeling](https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/tree/master/motor_control/arm_pendulum_modeling)
+3. [Motor control to achieve the desired arm motion](https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/tree/master/motor_control)
+4. [Mechanical design of the prosthetic elbow](https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/tree/master/mech_design)
 
 
-Modeling a human arm as a double pendulum:
+## Getting Started
 
-<p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/double_pendulum/double-pendulum-diagram.png" width="40%">
-</p>
-<p align="center">
-  <img src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/videos/double_pendulum/arm_pendulum_animation.gif" width="85%">
-</p>
+1. Clone the repository:
+    ```
+    git clone git@github.com:YaelBenShalom/Motorized-Prosthetic-Arm.git
+    ```
+
+2. Install the `odrive-tool` package. For installation instructions, visit the [odrive getting-started page
+](https://docs.odriverobotics.com/).
+
+3. Assemble the system acording to [this scheme]().
+
+4. To activate the system, connect the odrive to the computer and run:
+    ```
+    python3 motor_control/odrive_control.py --velocity=<walking velocity>
+    ```
