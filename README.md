@@ -34,12 +34,17 @@ This project contained 4 parts:
     git clone git@github.com:YaelBenShalom/Motorized-Prosthetic-Arm.git
     ```
 
-2. Install the `odrive-tool` package. For installation instructions, visit the [odrive getting-started page
-](https://docs.odriverobotics.com/).
+2. Install the `odrive-tool` package. For installation instructions, visit the [odrive getting-started page](https://docs.odriverobotics.com/).
 
 3. Assemble the system acording to [this scheme]().
 
-4. To activate the system, connect the odrive to the computer and run:
+4. upload the desired odrive configuration by running:
+    ```
+    odrivetool restore-config motor_control/config/my_config.json
+    ```
+    The motor might need an additional calibration. follow the calibration instructions on the [odrive getting-started page](https://docs.odriverobotics.com/).
+
+5. To activate the system, connect the module to the computer and run:
     ```
     python3 motor_control/odrive_control.py --velocity=<walking velocity>
     ```
