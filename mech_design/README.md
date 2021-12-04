@@ -16,7 +16,7 @@ The system contained several key parts:
 6. Battery
 
 <p align="center">
-  <img align="center" src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/mech_design.png">
+  <img align="center" src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/mech_design/mech_design.png">
 </p>
 
 All 3D CAD files can be found [here](https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/tree/master/mech_design), and all circuit board schematics and manufacture files can be found [here](https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/tree/master/board_design).
