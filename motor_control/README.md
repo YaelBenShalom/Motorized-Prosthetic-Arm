@@ -23,9 +23,9 @@ The PID position control diagram:
 An example of motor position control using the PID controller. The blue plot is the input angles, the red plot is the controlled output angles, and the second graph is the error changing with time:
 
 <p align="center">
-  <img align="center" src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/vidoes/motor_control/lab_device.gif">
+  <img align="center" src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/videos/motor_control/lab_device.gif">
 </p>
 
 <p align="center">
-  <img align="center" src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/motor_control/graph.png">
+  <img align="center" src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/videos/motor_control/graph.png">
 </p>

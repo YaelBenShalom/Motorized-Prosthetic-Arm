@@ -11,11 +11,11 @@ To Better understand the motion of a human arm and find a suitable motor to imit
 The double pendulum can be described using the following system sketch, where the masses are located in the center of mass of every link:
 
 <p align="center">
-  <img align="center" src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/double_pendulum/double-pendulum-diagram.png">
+  <img align="center" src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/images/double_pendulum/double-pendulum-diagram.png" width="50%">
 </p>
 
 The following video shows an animation of the arm motion, represented as a double pendulum:
 
 <p align="center">
-  <img align="center" src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/videos/double_pendulum/arm_pendulum_animation.gif">
+  <img align="center" src="https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/blob/master/videos/double_pendulum/arm_pendulum_animation.gif" width="130%">
 </p>
