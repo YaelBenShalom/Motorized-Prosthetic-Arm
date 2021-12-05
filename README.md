@@ -45,7 +45,7 @@ This project contains 4 parts:
 
     The controller might need an additional tunning. follow the tunning instructions on the [ODrive control page](https://docs.odriverobotics.com/control).
 
-5. To activate the system, run:
+5. Activate the system by running:
     ```
     python3 motor_control/odrive_control.py --velocity=<walking velocity>
     ```
