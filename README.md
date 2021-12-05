@@ -20,7 +20,7 @@ Please visit [my website](https://yaelbenshalom.github.io/motorized_prosthetic_a
 
 ## Project Overview
 
-This project contained 4 parts:
+This project contains 4 parts:
 
 1. [Data collection](https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/tree/master/data)
 2. [Arm motion analysis and modeling](https://github.com/YaelBenShalom/Motorized-Prosthetic-Arm/tree/master/motor_control/arm_pendulum_modeling)
@@ -38,14 +38,14 @@ This project contained 4 parts:
 
 3. Assemble the system acording to [this scheme]().
 
-4. Upload the desired odrive configuration by running:
+4. Connect the module to the computer's USB port and upload the desired ODrive configuration by running:
     ```
     python3 setup.py
     ```
 
-    The driver might need an additional tunning. follow the tunning instructions on the [ODrive control page](https://docs.odriverobotics.com/control).
+    The controller might need an additional tunning. follow the tunning instructions on the [ODrive control page](https://docs.odriverobotics.com/control).
 
-5. To activate the system, connect the module to the computer's USB port and run:
+5. To activate the system, run:
     ```
     python3 motor_control/odrive_control.py --velocity=<walking velocity>
     ```
