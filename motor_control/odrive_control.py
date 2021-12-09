@@ -86,24 +86,27 @@ def position_control(driver_name, elbow_pos, elbow_torque):
     torque_const = 8.27 / motor_kv
     position_offset = 0.18
 
-    input_pos_plot = []
-    output_torque_plot = []
-    output_pos_plot = []
-    output_vel_plot = []
-    pos_error = []
-    pos_error_abs = []
-    t_plot = []
-
     plot_rate = 1 / 110
-    plt.figure(figsize=(100, 50))
-    plt.suptitle('Odrive Output', fontsize=75)
-    plt.subplot(211)
+    
+    plot_graphs = False
+    
+    if plot_graphs:
+        input_pos_plot = []
+        output_torque_plot = []
+        output_pos_plot = []
+        output_vel_plot = []
+        pos_error = []
+        pos_error_abs = []
+        t_plot = []
+        
+        plt.figure(figsize=(100, 50))
+        plt.suptitle('Odrive Output', fontsize=75)
+        plt.subplot(311)
 
     init_time = time.time()
 
     for i in range(len(elbow_pos)):
         try:
-            # t = i * plot_rate
             current_time = time.time()
             t = current_time - init_time
             input_pos = elbow_pos[i] - position_offset
@@ -112,85 +115,137 @@ def position_control(driver_name, elbow_pos, elbow_torque):
             clear_errors(driver_name)
 
             output_pos, output_vel, output_curr = get_motor_state(driver_name)
-            # print("Moving to {} [turn]".format(output_pos))
-            # print("Moving at {} [turn/s]".format(output_vel))
-            # print("Motor current is {} [A]".format(output_curr))
-            # print("The position error is {} [deg]".format(input_pos - output_pos)*360)
 
-            # input_pos_plot.append(input_pos*360)
-            # output_pos_plot.append(output_pos*360)
-            # output_vel_plot.append(output_vel*360)
-            # output_torque_plot.append(-output_curr * torque_const)
-            # pos_error.append((input_pos - output_pos)*360)
-            # pos_error_abs.append(abs(input_pos - output_pos)*360)
-            # t_plot.append(t)
+            print("Position: {} [turn]\t Velocity: {} [turn/s]\t Current: {} [A]\t Position Error: {} [deg]".format(
+                output_pos, output_vel, output_curr, (input_pos - output_pos)*360))
+                
+            if plot_graphs:
+                input_pos_plot.append(input_pos*360)
+                output_pos_plot.append(output_pos*360)
+                output_vel_plot.append(output_vel*360)
+                output_torque_plot.append(-output_curr * torque_const)
+                pos_error.append((input_pos - output_pos)*360)
+                pos_error_abs.append(abs(input_pos - output_pos)*360)
+                t_plot.append(t)
 
-            # plt.scatter(t, input_pos*360, c="blue")
-            # plt.scatter(t, output_pos*360, c="red")
+                plt.scatter(t, input_pos*360, c="blue")
+                plt.scatter(t, output_pos*360, c="red")
+                
             time.sleep(plot_rate/2.5)
-
-        except:
-            print("Couldn't complete motion. shutting down")
-            # shut_down(driver_name)
-            raise
-
-    # max_pos_error = max(pos_error_abs)
-    # print("Maximum position error is: ", max_pos_error)
-    # print("Average position error is: ", sum(pos_error)/len(pos_error))
-    # print("Maximum position error as a precent of the max position: {}%".format(
-    #     max_pos_error*100/(max(elbow_torque)*360)))
-    # print("Delta time: {}".format(time.time() - init_time))
-
-    # plt.plot(t_plot, input_pos_plot, c="blue", label="Input position")
-    # plt.plot(t_plot, output_pos_plot, c="red", label="Output position")
-    # plt.ylabel('Angle [deg]', fontsize=40)
-    # plt.xlabel('Time [sec]', fontsize=40)
-    # plt.grid()
-    # plt.title('Input & Output Position', fontsize=50)
-    # plt.legend(fontsize=40)
-
-    # plt.subplot(212)
-    # plt.plot(t_plot, pos_error, label="Position error")
-    # plt.ylabel('Error [deg]', fontsize=40)
-    # plt.xlabel('Time [sec]', fontsize=40)
-    # plt.grid()
-    # plt.title('Position Error', fontsize=50)
-    # plt.legend(fontsize=40)
-
-    # plt.subplot(313)
-    # plt.plot(t_plot, elbow_torque, c="blue", label="Theoretical torque")
-    # plt.plot(t_plot, output_torque_plot, c="red", label="Output torque")
-    # plt.ylabel('Torque [Nm]', fontsize=40)
-    # plt.xlabel('Time [sec]', fontsize=40)
-    # plt.grid()
-    # plt.title('Theoretical Vs. Output Torque', fontsize=50)
-    # plt.legend(fontsize=40)
-
-    # plt.savefig("output.png")
-
-
-def velocity_control(driver_name, elbow_pos, elbow_torque):
-    driver_name.axis0.controller.config.control_mode = CONTROL_MODE_VELOCITY_CONTROL
-
-    # A sine wave to test
-    t0 = time.monotonic()
-    while time.monotonic() - t0 < 11:
-        try:
-            input_vel = 1 * math.sin(4 * (time.monotonic() - t0))
-            driver_name.axis0.controller.input_vel = input_vel
-            clear_errors(driver_name)
-
-            output_pos, output_vel, output_curr = get_motor_state(driver_name)
-            # print("Moving to {} [turn]".format(output_pos))
-            # print("Moving at {} [turn/s]".format(output_vel))
-            print("Motor current is {} [A]".format(output_curr))
-            # print("The velocity error is {} [turn/s]".format(input_vel - output_vel))
-            time.sleep(0.01)
 
         except:
             print("Couldn't complete motion. shutting down")
             shut_down(driver_name)
             raise
+
+    if plot_graphs:
+        max_pos_error = max(pos_error_abs)
+        print("Maximum position error is: ", max_pos_error)
+        print("Average position error is: ", sum(pos_error)/len(pos_error))
+        print("Maximum position error as a precent of the max position: {}%".format(
+            max_pos_error*100/(max(elbow_torque)*360)))
+        print("Delta time: {}".format(time.time() - init_time))
+
+        plt.plot(t_plot, input_pos_plot, c="blue", label="Input position")
+        plt.plot(t_plot, output_pos_plot, c="red", label="Output position")
+        plt.ylabel('Angle [deg]', fontsize=40)
+        plt.xlabel('Time [sec]', fontsize=40)
+        plt.grid()
+        plt.title('Input & Output Position', fontsize=50)
+        plt.legend(fontsize=40)
+
+        plt.subplot(312)
+        plt.plot(t_plot, pos_error, label="Position error")
+        plt.ylabel('Error [deg]', fontsize=40)
+        plt.xlabel('Time [sec]', fontsize=40)
+        plt.grid()
+        plt.title('Position Error', fontsize=50)
+        plt.legend(fontsize=40)
+
+        plt.subplot(313)
+        plt.plot(t_plot, elbow_torque, c="blue", label="Theoretical torque")
+        plt.plot(t_plot, output_torque_plot, c="red", label="Output torque")
+        plt.ylabel('Torque [Nm]', fontsize=40)
+        plt.xlabel('Time [sec]', fontsize=40)
+        plt.grid()
+        plt.title('Theoretical Vs. Output Torque', fontsize=50)
+        plt.legend(fontsize=40)
+
+        plt.savefig("output.png")
+
+
+def velocity_control(driver_name, elbow_vel, elbow_torque):
+    driver_name.axis0.controller.config.control_mode = CONTROL_MODE_VELOCITY_CONTROL
+
+    motor_kv = 115
+    torque_const = 8.27 / motor_kv
+
+    initial_pos = driver_name.axis0.controller.input_pos
+    plot_rate = 1/100
+    
+    plot_graphs = False
+    
+    if plot_graphs:
+        input_vel_plot = []
+        output_torque_plot = []
+        output_pos_plot = []
+        output_vel_plot = []
+        vel_error = []
+        t_plot = []
+        
+        plt.figure(figsize=(100, 25))
+        plt.suptitle('Odrive Output', fontsize=75)
+        plt.subplot(211)
+
+    for i in range(len(elbow_torque)):
+        try:
+            t = i * plot_rate
+            input_vel = elbow_vel[i]
+
+            driver_name.axis0.controller.input_vel = input_vel_plot
+            clear_errors(driver_name)
+
+            output_pos, output_vel, output_curr = get_motor_state(driver_name)
+            
+            print("Position: {} [turn]\t Velocity: {} [turn/s]\t Current: {} [A]\t Velocity Error: {} [deg/s]".format(
+                output_pos, output_vel, output_curr, (input_vel - output_vel)*360))
+
+            if plot_graphs:
+                input_vel_plot.append(input_vel)
+                output_pos_plot.append(output_pos)
+                output_vel_plot.append(output_vel)
+                output_torque_plot.append(-output_curr * torque_const)
+                vel_error.append((input_vel - output_vel)*360)
+                t_plot.append(t)
+
+                plt.scatter(t, input_vel, c="blue")
+                plt.scatter(t, output_vel, c="red")
+                
+            time.sleep(plot_rate)
+
+        except:
+            print("Couldn't complete motion. shutting down")
+            shut_down(driver_name)
+            raise
+    
+    if plot_graphs:
+        plt.plot(t_plot, input_vel_plot, c="blue", label="Input velocity")
+        plt.plot(t_plot, output_vel_plot, c="red", label="Output velocity")
+        plt.ylabel('Torque [Nm]', fontsize=40)
+        plt.xlabel('Time [sec]', fontsize=40)
+        plt.grid()
+        plt.title('Input & Output torque', fontsize=20)
+        plt.legend(fontsize=50)
+
+        plt.subplot(212)
+        plt.plot(t_plot, vel_error, label="Position error")
+        plt.ylabel('Error [deg]', fontsize=40)
+        plt.xlabel('Time [sec]', fontsize=40)
+        plt.grid()
+        plt.title('Velocity Error', fontsize=20)
+        plt.legend(fontsize=50)
+
+        plt.savefig("output.png")
 
 
 def current_control(driver_name, elbow_pos, elbow_torque):
@@ -199,17 +254,21 @@ def current_control(driver_name, elbow_pos, elbow_torque):
     motor_kv = 115
     torque_const = 8.27 / motor_kv
 
-    input_torque_plot = []
-    output_torque_plot = []
-    output_pos_plot = []
-    output_vel_plot = []
-    t_plot = []
-
     initial_pos = driver_name.axis0.controller.input_pos
     plot_rate = 1/100
-    plt.figure(figsize=(100, 25))
-    plt.suptitle('Odrive Output', fontsize=75)
-    plt.subplot(211)
+    
+    plot_graphs = False
+    
+    if plot_graphs:
+        input_torque_plot = []
+        output_torque_plot = []
+        output_pos_plot = []
+        output_vel_plot = []
+        t_plot = []
+        
+        plt.figure(figsize=(100, 25))
+        plt.suptitle('Odrive Output', fontsize=75)
+        plt.subplot(211)
 
     for i in range(len(elbow_torque)):
         try:
@@ -221,44 +280,46 @@ def current_control(driver_name, elbow_pos, elbow_torque):
 
             output_pos, output_vel, output_curr = get_motor_state(driver_name)
             output_torque = -output_curr * torque_const
-            # print("Moving to {} [turn]".format(output_pos))
-            # print("Moving at {} [turn/s]".format(output_vel))
-            print("Motor current is {} [A]".format(output_curr))
-            # print("The torque error is {} [N/m]".format(input_torque  - output_torque))
+            
+            print("Position: {} [turn]\t Velocity: {} [turn/s]\t Current: {} [A]\t Current Error: {} [Nm]".format(
+                output_pos, output_vel, output_curr, input_torque - output_torque))
 
-            input_torque_plot.append(input_torque)
-            output_pos_plot.append(output_pos - initial_pos)
-            output_vel_plot.append(output_vel)
-            output_torque_plot.append(output_torque)
-            t_plot.append(t)
+            if plot_graphs:
+                input_torque_plot.append(input_torque)
+                output_pos_plot.append(output_pos - initial_pos)
+                output_vel_plot.append(output_vel)
+                output_torque_plot.append(output_torque)
+                t_plot.append(t)
 
-            plt.scatter(t, input_torque, c="blue")
-            plt.scatter(t, output_torque, c="red")
+                plt.scatter(t, input_torque, c="blue")
+                plt.scatter(t, output_torque, c="red")
+                
             time.sleep(plot_rate)
 
         except:
             print("Couldn't complete motion. shutting down")
             shut_down(driver_name)
             raise
+    
+    if plot_graphs:
+        plt.plot(t_plot, input_torque_plot, c="blue", label="Input torque")
+        plt.plot(t_plot, output_torque_plot, c="red", label="Output torque")
+        plt.ylabel('Torque [Nm]', fontsize=50)
+        plt.xlabel('Time [sec]', fontsize=50)
+        plt.grid()
+        plt.title('Input & Output torque', fontsize=20)
+        plt.legend(fontsize=50)
 
-    plt.plot(t_plot, input_torque_plot, c="blue", label="Input torque")
-    plt.plot(t_plot, output_torque_plot, c="red", label="Output torque")
-    plt.ylabel('Torque [Nm]', fontsize=50)
-    plt.xlabel('Time [sec]', fontsize=50)
-    plt.grid()
-    plt.title('Input & Output torque', fontsize=20)
-    plt.legend(fontsize=50)
+        plt.subplot(212)
+        plt.plot(t_plot, output_pos_plot, c="blue", label="Output position")
+        plt.plot(t_plot, output_vel_plot, c="red", label="Output velocity")
+        plt.plot(t_plot, output_torque_plot, c="green", label="Output torque")
+        plt.xlabel('Time [sec]', fontsize=50)
+        plt.grid()
+        plt.title('Output Angle, Velocity & Torque', fontsize=20)
+        plt.legend(fontsize=50)
 
-    plt.subplot(212)
-    plt.plot(t_plot, output_pos_plot, c="blue", label="Output position")
-    plt.plot(t_plot, output_vel_plot, c="red", label="Output velocity")
-    plt.plot(t_plot, output_torque_plot, c="green", label="Output torque")
-    plt.xlabel('Time [sec]', fontsize=50)
-    plt.grid()
-    plt.title('Output Angle, Velocity & Torque', fontsize=20)
-    plt.legend(fontsize=50)
-
-    plt.savefig("output.png")
+        plt.savefig("output.png")
 
 
 def main(args):
