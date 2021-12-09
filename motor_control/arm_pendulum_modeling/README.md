@@ -1,4 +1,4 @@
-# Designing, Building and Controlling a Motorized Prosthetic Arm
+# The Design and Control of a Motorized Prosthetic Arm
 
 Author: Yael Ben Shalom<br>
 Final project, MS in Robotics at Northwestern, 2021.
