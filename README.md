@@ -6,8 +6,8 @@ Final project, MS in Robotics at Northwestern, 2021.
 
 ## Table of Contents
 
-- [Project Description](#project_description)
-- [Project Overview](#project_overview)
+- [Project Description](#project-description)
+- [Project Overview](#project-overview)
 - [Getting Started](#getting-started)
 
 ## Project Description
