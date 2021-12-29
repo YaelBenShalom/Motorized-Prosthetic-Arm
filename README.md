@@ -36,7 +36,7 @@ This project contains 4 parts:
 
 2. Install the `odrive-tool` package. For installation instructions, visit the [ODrive getting-started page](https://docs.odriverobotics.com/).
 
-3. Assemble the system acording to [this scheme]().
+3. Assemble the system according to the system sketch.
 
 4. Connect the module to the computer's USB port and upload the desired ODrive configuration by running:
     ```
