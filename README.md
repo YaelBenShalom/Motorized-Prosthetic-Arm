@@ -43,7 +43,7 @@ This project contains 4 parts:
     python3 setup.py
     ```
 
-    The controller might need an additional tunning. follow the tunning instructions on the [ODrive control page](https://docs.odriverobotics.com/control).
+    The controller might need an additional tunning. Follow the tunning instructions on the [ODrive control page](https://docs.odriverobotics.com/control).
 
 5. Activate the system by running:
     ```
